@@ -7,8 +7,7 @@
 	if (!SettingsMod::ENABLE_HACK_SHARE)
 		SecurityMod::logout();
 	
-	$permissions = $_SESSION["account"]->getPermissions();
-	if ( !($permissions==2 || $permissions==3 || $permissions==8 || $permissions==9) )
+	if (!SecurityMod::checkPermission("hack-view"))
 		SecurityMod::logout();
 		
 	$hack = HackMod::getHack(intval($_REQUEST["id"]));

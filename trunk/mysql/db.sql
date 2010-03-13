@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `account` (
   `universe` varchar(10) NOT NULL,
   `name` varchar(32) NOT NULL,
   `password` varchar(32) default NULL,
-  `permissions` tinyint(1) NOT NULL,  
+  `permissions` tinyint(2) NOT NULL,  
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 

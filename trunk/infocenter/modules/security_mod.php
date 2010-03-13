@@ -48,5 +48,35 @@
 			header("Location: login.php");
 			exit();
 		}
+	
+		public static function checkPermission($this) {
+			$permissions = $_SESSION["account"]->getPermissions();
+			$isBanned = ( $permissions<1 || $permissions>24 );
+			$isAdmin = ( $permissions > 12 );
+			if ($isAdmin)
+				$permissions = $permissions - 12;
+			switch ($this) {
+				case "is-banned":
+					return ( $isBanned );
+				case "is-admin":
+					return ( $isAdmin );
+				case "combat-view":
+					return ( $permissions==2 || $permissions==3 || $permissions==5 || $permissions==6 );
+				case "hack-view":
+					return ( $permissions==2 || $permissions==3 || $permissions==8 || $permissions==9 );
+				case "mission-view":
+					return ( $permissions==2 || $permissions==3 || $permissions==11 || $permissions==12 );
+				case "combat-share":
+					return ( $permissions==1 || $permissions==3 || $permissions==4 || $permissions==6 );
+				case "hack-share":
+					return ( $permissions==1 || $permissions==3 || $permissions==7 || $permissions==9 );
+				case "mission-share":
+					return ( $permissions==1 || $permissions==3 || $permissions==10 || $permissions==12 );
+				default:
+					return false;
+			}
+		}
+		
 	}
+	
 ?>
