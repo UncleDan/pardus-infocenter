@@ -1,0 +1,32 @@
+body {background: #00001C; font-family: Arial, Verdana, sans-serif; font-size: 12px; color: #A1A1AF;}
+body {
+scrollbar-face-color:#04042C;
+scrollbar-arrow-color:#788496;
+scrollbar-track-color:#050535;
+scrollbar-highlight-color:#788496;
+scrollbar-darkshadow-color:#788496;
+scrollbar-base-color:#383F49;
+}
+table {font-family: Arial, Verdana, sans-serif; font-size: 12px; color: #A1A1AF;}
+table.premium {font-family: Arial, Verdana, sans-serif; font-size: 12px; color: #FFCC11;}
+table.premium th {background: #FFCC11; color: #000000;}
+.nf {width: 64px; height: 64px; border: 0; cursor: pointer;}
+.first {background: #A1A1AF; color: #00001C;}
+.alternating {background: #0C0C3E;}
+th {background: #A1A1AF; color: #00001C;}
+th.premium {background: #FFCC11; color: #000000;}
+th.premium A:link {color: #000000;}
+th.premium A:visited {color: #000000;}
+th.premium A:hover {color: #000000;}
+hr {color: #A1A1AF; border-style:groove;}
+A:link {text-decoration:none; color:#D0D1D9;}
+A:visited {text-decoration:none; color:#D0D1D9;}
+A:hover {text-decoration:underline; color:#E5E5FF;}
+select, input, button {background-color:#00001C; color:#D0D1D9;}
+input.disabled {background-color:#CCCCCC; color:#B5B5B5;}
+.tabstyle {border-width:3px; border-color:#A0B1C9; border-style:double; padding:5px;}
+.marginstyle {margin: 5px; padding: 5px;}
+.messagestyle {border-width:1px; border-color:#A0B1C9; border-style:outset; padding: 5px;}
+.upgradestyle {border-width:2px; border-color:#A0B1C9; border-style:outset; padding: 5px;}
+#tipBox {position:absolute; width: 200px; z-index: 100; border: 1pt black solid; background: #000000; visibility: hidden; padding-left: 0px; padding-right: 0px; padding-top: 0px; padding-bottom: 0px;}
+ul {padding-left:0.5cm; margin-left:0cm}
