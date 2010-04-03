@@ -59,7 +59,7 @@
 
 		public static function getHacks($filters, &$pageNumber, &$pageCount) {
 			$conn = self::getConnection();
-			$where = sprintf("where universe = '%s' ", $_SESSION["account"]->getUniverse());
+			$where = sprintf("where universe = '%s' ", $filters["universe"]);
 			if ($filters["method"])
 				$where .= sprintf("and method = '%s' ", mysql_real_escape_string($filters["method"]));
 			if ($filters["pilot"])
