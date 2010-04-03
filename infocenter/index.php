@@ -46,9 +46,7 @@
 		    (SecurityMod::checkPermission("combat-share")	|| SecurityMod::checkPermission("hack-share")	|| SecurityMod::checkPermission("mission-share")	)	)
 			echo('			<a href="pardus_infocenter_share.user.js" target="_blank">GM Script</a> | '."\n");
 		if (SecurityMod::checkPermission("is-admin")) {
-			echo('			<a href="users.php?universe=');
-			echo($universe);
-			echo('" target="mainFrame">Users</a> | '."\n");
+			echo('			<a href="accounts.php" target="mainFrame">Accounts</a> | '."\n");
 			}
 		echo('			<a href="logout.php" >Logout</a>');
 

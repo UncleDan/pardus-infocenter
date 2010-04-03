@@ -106,6 +106,13 @@ KNOWN BUGS/TO DO LIST
 - Possibly more 
 
 VERSION HISTORY
+1.5b2.004h (2010-04-03)
+- Renamed "users.php" to "accounts.php" and revised "index.php" to reflect the change *Uncledan*
+- Mock page "accounts.php" now shows users and a possible (semi)definitive structure: operations to update db still to come;
+  created the function getAccounts in "modules/account_mod" to allow this *Uncledan*
+- Revised "modules/account_mod", "modules/combat_mod.php", "modules/hack_mod.php", "modules/mission_mod" to use the
+  $filters["universe"] parameter instead of re-read from account each time *Uncledan*
+  
 1.5b2.004g (2010-03-13)
 - Revised "modules/security_mod.php" implementing the function "checkPermission" to make easier to customize permission *Uncledan*
 - Modified field "permissions" in database to tinyint(2) to allow new permissions *Uncledan*; 
