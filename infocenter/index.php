@@ -2,7 +2,8 @@
 	require("modules/security_mod.php");
 	SecurityMod::login();
 	
-	if (SecurityMod::checkPermission("is-banned"))
+	$permissions = $_SESSION["account"]->getPermissions();
+	if ($permissions<1 || $permissions>9)
 		SecurityMod::logout();
 		
 	$name = $_SESSION["account"]->getName();
@@ -21,33 +22,29 @@
 		echo('<img src="http://static.pardus.at/various/universes/'.strtolower($universe).'_16x16.png"');
 		echo(' title="'.$universe.': '.$name.'" style="vertical-align: middle;" alt="'.$universe.': '.$name.'"');
 		echo(' border="0" height="13" width="13"> '."\n");
-		if (SecurityMod::checkPermission("is-admin"))
+		if ($permissions==3)
 			echo('			<span style="color: red; font-weight: bold;">'.$name.'</span> | '."\n");
 		else
 			echo('			<span style="font-weight: bold;">'.$name.'</span> | '."\n");			
 		if (SettingsMod::ENABLE_MAIN_PAGE)
 			echo('			<a href="main.php" target="mainFrame">Main</a> | '."\n");
-		if (SettingsMod::ENABLE_COMBAT_SHARE && SecurityMod::checkPermission("combat-view")) {
+		if (SettingsMod::ENABLE_COMBAT_SHARE && ($permissions==2 || $permissions==3 || $permissions==5 || $permissions==6)) {
 			echo('			<a href="combats.php?universe=');
 			echo($universe);
 			echo('" target="mainFrame">Combats</a> | '."\n");
 			}
-		if (SettingsMod::ENABLE_HACK_SHARE && SecurityMod::checkPermission("hack-view")) {
+		if (SettingsMod::ENABLE_HACK_SHARE && ($permissions==2 || $permissions==3 || $permissions==8 || $permissions==9)) {
 			echo('			<a href="hacks.php?universe=');
 			echo($universe);
 			echo('" target="mainFrame">Hacks</a> | '."\n");
 			}
-		if (SettingsMod::ENABLE_MISSION_SHARE && SecurityMod::checkPermission("mission-view")) {
+		if (SettingsMod::ENABLE_MISSION_SHARE && ($permissions==2 || $permissions==3)) {
 			echo('			<a href="missions.php?universe=');
 			echo($universe);
 			echo('" target="mainFrame">Missions</a> | '."\n");
 			}
-		if ((SettingsMod::ENABLE_COMBAT_SHARE				|| SettingsMod::ENABLE_HACK_SHARE				|| SettingsMod::ENABLE_MISSION_SHARE				)	&&
-		    (SecurityMod::checkPermission("combat-share")	|| SecurityMod::checkPermission("hack-share")	|| SecurityMod::checkPermission("mission-share")	)	)
+		if ($permissions==1 || $permissions==3 || $permissions==4 || $permissions==6 || $permissions==7 || $permissions==9)			
 			echo('			<a href="pardus_infocenter_share.user.js" target="_blank">GM Script</a> | '."\n");
-		if (SecurityMod::checkPermission("is-admin")) {
-			echo('			<a href="accounts.php" target="mainFrame">Accounts</a> | '."\n");
-			}
 		echo('			<a href="logout.php" >Logout</a>');
 
 ?>		</td>

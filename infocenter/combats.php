@@ -9,7 +9,8 @@
 	if (!SettingsMod::ENABLE_COMBAT_SHARE)
 		SecurityMod::logout();
 		
-	if (!SecurityMod::checkPermission("combat-view"))
+	$permissions = $_SESSION["account"]->getPermissions();
+	if ( !($permissions==2 || $permissions==3 || $permissions==5 || $permissions==6) )
 		SecurityMod::logout();
 		
 ?>

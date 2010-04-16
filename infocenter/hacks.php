@@ -8,7 +8,8 @@
 	if (!SettingsMod::ENABLE_HACK_SHARE)
 		SecurityMod::logout();
 	
-	if (!SecurityMod::checkPermission("hack-view"))
+	$permissions = $_SESSION["account"]->getPermissions();
+	if ( !($permissions==2 || $permissions==3 || $permissions==8 || $permissions==9) )
 		SecurityMod::logout();
 
 	$pageNumber = intval(v($_REQUEST, "page"));

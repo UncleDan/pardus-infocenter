@@ -13,7 +13,8 @@
 		exit;
 	}
 	
-	if (!SecurityMod::checkPermission("hack-share")) {
+	$permissions = $acc->getPermissions();
+	if ( !($permissions==2 || $permissions==3 || $permissions==7 || $permissions==9) ) {
 		echo("Insufficient permissions");
 		exit;
 	}

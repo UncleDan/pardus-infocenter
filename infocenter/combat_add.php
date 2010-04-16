@@ -12,7 +12,8 @@
 		exit;
 	}
 	
-	if (!SecurityMod::checkPermission("combat-share")) {
+	$permissions = $acc->getPermissions();
+	if ( !($permissions==1 || $permissions==3 || $permissions==4 || $permissions==6) ) {
 		echo("Insufficient permissions");
 		exit;
 	}
