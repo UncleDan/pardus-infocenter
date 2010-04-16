@@ -14,7 +14,7 @@
 	}
 	
 	$permissions = $acc->getPermissions();
-	if ( !($permissions==2 || $permissions==3 || $permissions==7 || $permissions==9) ) {
+	if ( !($permissions==1 || $permissions==3 || $permissions==7 || $permissions==9) ) {
 		echo("Insufficient permissions");
 		exit;
 	}
