@@ -53,7 +53,7 @@
 
 		public static function getMissions($filters, &$pageNumber, &$pageCount) {
 			$conn = self::getConnection();
-			$where = sprintf("where universe = '%s' ", $filters["universe"]);
+			$where = sprintf("where universe = '%s' ", $_SESSION["account"]->getUniverse());
 			if ($filters["type"])
 				$where .= sprintf("and type = '%s' ", mysql_real_escape_string($filters["type"]));
 			if ($filters["npc"])

@@ -13,7 +13,8 @@
 		exit;
 	}
 	
-	if (!SecurityMod::checkPermission("mission-share")) {
+	$permissions = $acc->getPermissions();
+	if ( !($permissions==1 || $permissions==3) ) {
 		echo("Insufficient permissions");
 		exit;
 	}

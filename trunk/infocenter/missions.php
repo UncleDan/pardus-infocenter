@@ -9,7 +9,8 @@
 	if (!SettingsMod::ENABLE_MISSION_SHARE)
 		SecurityMod::logout();
 	
-	if (!SecurityMod::checkPermission("mission-view"))
+	$permissions = $_SESSION["account"]->getPermissions();
+	if ( !($permissions==2 || $permissions==3) )
 		SecurityMod::logout();
 
 	$pageNumber = intval(v($_REQUEST, "page"));
