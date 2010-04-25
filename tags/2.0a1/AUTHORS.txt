@@ -1,0 +1,10 @@
+AUTHORS
+
+ORIGINAL MAINTAINER		
+		Pio 		-Orion-		siur2@yahoo.com
+CURRENT MAINTAINER
+		Uncledan		-Orion-		uncledan@uncledan.it
+		Larry Legend	-Artemis-	larrylegend@live.it
+FROM VERSION 1.5b2.004
+		Sobkou	-Orion-		sobkou.pardus@gmail.com
+		Taurvi	-Artemis-	sobkou.pardus@gmail.com

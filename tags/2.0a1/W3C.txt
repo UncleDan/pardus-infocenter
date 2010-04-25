@@ -1,0 +1,15 @@
+Already "Valid HTML 4.01" compliant:
+----------------------------------------------------
+login.php
+main.php
+combats.php
+hacks.php
+missions.php
+menu.php
+index.php (except FRAMEBORDER and FRAMESPACING)
+combat_details.php
+hack_details.php
+accounts.php
+combat_add.php
+hack_add.php
+missions_add.php
