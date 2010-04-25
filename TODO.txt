@@ -1,0 +1,11 @@
+TODO LIST
+
+- Users Adminstration Page [Uncledan]
+- Add a bridge for phpBB3/Use phpBB3 User Table [Sobkou]
+- Improve war missions store [Uncledan]
+- Add a button to share only war missions [Uncledan]
+- Add a feature to delete stored data without recurring to phpMyAdmin [Uncledan]
+- More search criteria. At least in the version I'm looking at, there are only filters on type, outcome, ambush or not, and opponent. I'd like to see the ability to filter on location, ship, guns and/or missiles, number of rounds, etc. The more the merrier! [Killer]
+- Sort order by clicking on the heading [Killer]
+- Possibly more 
+

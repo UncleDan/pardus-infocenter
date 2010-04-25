@@ -1,0 +1,11 @@
+KNOWN BUGS
+
+- Cannot upload missions after 2.0a1 changes [Uncledan]
+- Missions are shared even if permissions would not allow [Uncledan]
+- Logs were stored by their own unique ID number (they should probably instead be stored by a concatenation of universe number (O=0, A=1, P=2), and the original combat log ID. This would prevent out-of-sequence logs from showing up (happens fairly often) [Lucky Seven]
+- Squad combat displays / stores badly. It appears to be saved, but is pretty heavily garbled [Lucky Seven]
+- Resources images not uploaded (or displayed?) in freak/guru hacks [Uncledan]
+
+*SOLVED* Use the defined variable "DB_TABLE_PREFIX" to make customization easier [Uncledan]
+*SOLVED* Logs that have a single quote (') in the name fields are quoted twice before DB insertion. this results in having name fields in the results show up like "Uncledan\'s Robot Factory". I looked for this, but couldn't determine the source. This is probably a result of the user.JS file escaping the sequence, and then the PHP code escaping it again before insertion into the DB [Lucky Seven]
+*SOLVED* missions not correctly uploaded [Taurvi]

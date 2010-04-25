@@ -1,0 +1,70 @@
+REQUIREMENTS
+In order to install and use the Pardus Infocenter,
+you must have a web host that has PHP and allows you to access the SQL server.
+
+To use the Greasemonkey script (which is included), Firefox and the Greasemonkey extension are required.
+
+INSTALLATION
+1) Create a new database and import "/mysql/install-db.sql" in phpMyAdmin
+a. Alternatively, if you don't have any other installations of the Pardus Infocenter, you could import "/mysql/install-db.sql" into an existing database.
+2) Open up "/infocenter/modules/settings_mod.php" and specify your "DB Settings."
+3) Copy the content of the "/infocenter" folder to the appropriate folder on your web host.
+4) Open up "/infocenter/pardus_infocenter_share.user.js" and edit the settings under "SERVERS."
+5) Go to "http://www.yourdomain.com/(path)/infocenter" and test your login and password. Default logins are the following (Login/Password, case sensitive):
+a. Orion-View/Pardus
+b. Artemis-View/Pardus
+c. Pegasus-View/Pardus
+6) If you log in successfully, proceed to download and test the Greasemonkey Script. If not, go back to step 2 and make sure that your settings are correct.
+7) Your setup should be finished. See the next section for options on how to customize your installation.
+
+CUSTOMIZATION
+
+* ACCOUNTS
+	Here is how to add multiple accounts for your Infocenter.
+1) Open up phpMyAdmin
+2) Select the Database that you imported the Infocenter "install-db.sql"
+3) Click on "Accounts" and click to "Browse"
+4) Make note of the ID of the last account.
+5) Click "Insert" and enter in the next ID number from the one you noted.
+6) Fill out the information, specifying a Universe, Username, and Permission setting.
+7) For the password, you will need to convert it into a MD5 format. Go to "http://md5-hash-online.waraxe.us/" and enter in the desired password. Once it is converted, copy and paste that value into the "Password" field.
+8) Click to insert entry, and test your login to see if it works.
+MAIN PAGE
+In this version of the Pardus Infocenter, you have the option to customize and create your very own main page.
+1) Go to "/modules/settings_mod.php" and change the values of MAIN_PAGE_TITLE, MAIN_PAGE_IMAGE and MAIN_PAGE_DESCRIPTION;
+2) If you wish a deeper customization, open "/main.php" and edit accordingly. 
+
+If you feel that you do not want "main.php" to be your main page, then follow these steps: 
+
+1) Go to "/modules/settings_mod.php"
+2) Find the following line:
+		const PAGE_STARTING_PAGE = "main"; 
+3) Change "main" to one of the other options listed (combats/hacks/mission).
+4) Find the following line:
+		const ENABLE_MAIN_PAGE = true; 
+5) Change "true" to "false."
+
+* IMPORTING DATA
+If you are updating your Infocenter or migrating from a different source, you can import old data into your new database.
+1) Log into phpMyAdmin.
+2) Select the Database where you installed the "install-db.sql."
+3) Click "Export."
+4) Select the appropriate tables (account/combat/hack/mission).
+5) Uncheck Structure if you are moving to a DB that already has Infocenter information, otherwise leave it checked. Check off "IF NOT EXISTS."
+6) Change the "Maximal length of created query" to "9999999999."
+7) Change "Export type" to "UPDATE" if you are moving to a DB that already has Infocenter information.
+8) Check off "Save as file."
+9) Click "Go."
+10)  Go to your new Database.
+11)  Click "Import" and select the file you downloaded.
+12)  Import.
+13)  Check your Infocenter Website and make sure that the files transferred.
+
+* DELETING
+Currently, it is not possible to delete entries without access to the SQL Database. If you feel it is necessary to clear logs, for whatever reason, do the following:
+1) Log into phpMyAdmin
+2) Select the Database where you installed the "install-db.sql"
+3) Select the appropriate table (combat/hack/mission)
+4) Check off the appropriate entries and click to "Delete"
+5) Confirm you want to delete.
+6) Check the website and make sure the files were deleted.
