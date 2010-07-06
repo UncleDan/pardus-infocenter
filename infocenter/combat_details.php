@@ -38,7 +38,9 @@ Combat log was not found.
 	var static_images = "<?php echo(SettingsMod::STATIC_IMAGES)?>";
 	var cmbt_location = <?php printf("\"%s [%s]\"", $cmbt->getSector(), $cmbt->getCoords())?>;
 </script>
-<?php if ($cmbt->getType() == "Ship vs NPC" || $cmbt->getType() == "Ship vs Ship"):?>
+<?php if ($cmbt->getType() == "Squadron vs Squadron"): ?>
+<script src="combat_qvq.js" type="text/javascript"></script>
+<?php elseif ($cmbt->getType() == "Ship vs NPC" || $cmbt->getType() == "Ship vs Ship"):?>
 <script src="combat_svs.js" type="text/javascript"></script>
 <?php else:?>
 <script src="combat_svb.js" type="text/javascript"></script>

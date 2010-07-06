@@ -1,3 +1,8 @@
+/* NOTE: These files were taken from the combat logging pages and ripped
+         completely, with the "var cr = " line removed and the last line
+         replaced by the new line... there is no reason to try to do this
+         yourself, thankfully. */
+
 var wtype1 = new Object();
 var wtype2 = new Object();
 var windices1 = new Array();
@@ -97,7 +102,7 @@ raid = new Array();
 lindices1 = new Array();
 lindices2 = new Array();
 
-l = 0;
+var l = 0;
 var i = 11;
 while (cr[i] != 'B') {
     if (cr[i] == 'L' || cr[i] == 'M') {

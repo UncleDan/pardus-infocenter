@@ -8,25 +8,26 @@
 
 // This script is for use with Pardus Infocenter v1.5b2.DEV
 // This script has been modded by Taurvi (Artemis)/Sobkou (Orion) to fit the Pardus Infocenter 1.5b2.004
+// This script has been modified by Brad Cable (Artemis - Aeiri / Orion - Jetix) to fix a few bugs.
 // ASCII art made with Doom font at http://patorjk.com/software/taag/
 
-//  _____      _   _   _                 
-// /  ___|    | | | | (_)                
-// \ `--.  ___| |_| |_ _ _ __   __ _ ___ 
+//  _____      _   _   _
+// /  ___|    | | | | (_)
+// \ `--.  ___| |_| |_ _ _ __   __ _ ___
 //  `--. \/ _ \ __| __| | '_ \ / _` / __|
 // /\__/ /  __/ |_| |_| | | | | (_| \__ \
 // \____/ \___|\__|\__|_|_| |_|\__, |___/
-//                              __/ |    
-//                             |___/     
+//                              __/ |
+//                             |___/
 
 var enableCombatShare	= true;
 var enableHackShare		= true;
 var hideHackerLocation	= false; //if set to *true* the hacker location won't be shown
 var enableMissionsShare	= true;
 
-//  _____                              
-// /  ___|                             
-// \ `--.  ___ _ ____   _____ _ __ ___ 
+//  _____
+// /  ___|
+// \ `--.  ___ _ ____   _____ _ __ ___
 //  `--. \/ _ \ '__\ \ / / _ \ '__/ __|
 // /\__/ /  __/ |   \ V /  __/ |  \__ \
 // \____/ \___|_|    \_/ \___|_|  |___/
@@ -45,22 +46,22 @@ var servers = [
 
 ];
 
-//  _____                                       
-// /  __ \                                      
-// | /  \/ ___  _ __ ___  _ __ ___   ___  _ __  
-// | |    / _ \| '_ ` _ \| '_ ` _ \ / _ \| '_ \ 
+//  _____
+// /  __ \
+// | /  \/ ___  _ __ ___  _ __ ___   ___  _ __
+// | |    / _ \| '_ ` _ \| '_ ` _ \ / _ \| '_ \
 // | \__/\ (_) | | | | | | | | | | | (_) | | | |
 //  \____/\___/|_| |_| |_|_| |_| |_|\___/|_| |_|
 
 function sltServer_onChange() {
-	var btnShare = document.getElementById("btnShare"); 
+	var btnShare = document.getElementById("btnShare");
 	btnShare.disabled = false;
 	btnShare.className = "";
 }
 
-//  _____                 _           _       
-// /  __ \               | |         | |      
-// | /  \/ ___  _ __ ___ | |__   __ _| |_ ___ 
+//  _____                 _           _
+// /  __ \               | |         | |
+// | /  \/ ___  _ __ ___ | |__   __ _| |_ ___
 // | |    / _ \| '_ ` _ \| '_ \ / _` | __/ __|
 // | \__/\ (_) | | | | | | |_) | (_| | |_\__ \
 //  \____/\___/|_| |_| |_|_.__/ \__,_|\__|___/
@@ -96,7 +97,7 @@ function saveCombat() {
 		form.appendChild(input);
 	}
 
-	var btnShare = document.getElementById("btnShare"); 
+	var btnShare = document.getElementById("btnShare");
 	btnShare.disabled = "true";
 	btnShare.className = "disabled";
 
@@ -206,9 +207,9 @@ function addCombatShareBtn() {
 	br.parentNode.insertBefore(div, br.nextSibling);
 }
 
-//  _   _            _        
-// | | | |          | |       
-// | |_| | __ _  ___| | _____ 
+//  _   _            _
+// | | | |          | |
+// | |_| | __ _  ___| | _____
 // |  _  |/ _` |/ __| |/ / __|
 // | | | | (_| | (__|   <\__ \
 // \_| |_/\__,_|\___|_|\_\___/
@@ -260,7 +261,7 @@ function saveHack() {
 			return result;
 		}
 
-		var btnShare = document.getElementById("btnShare"); 
+		var btnShare = document.getElementById("btnShare");
 		btnShare.disabled = "true";
 		btnShare.className = "disabled";
 
@@ -285,7 +286,7 @@ function saveHack() {
 			if (tag && (tag.toLowerCase() == "table"))
 				tables.push(child);
 		}
-		
+
 		if (!hideHackerLocation)
 			hack.location = table.getElementsByTagName("a")[0].innerHTML;
 
@@ -294,6 +295,22 @@ function saveHack() {
 		var friendTable = null;
 		var resourceTable = null;
 		var shipTable = null;
+
+		// if the user has no buildings, the buildings table is not displayed...
+		// we have to substitute this if it's not there so that data doesn't get
+		// truncated
+		if (tables.length > 2) {
+			var buildingsTH = tables[2].getElementsByTagName("th")[0];
+			// if not buildings table
+			if (!buildingsTH || buildingsTH.innerHTML != "Buildings") {
+				var newTables = tables.slice(0, 2);
+				newTables[2] = null;
+				for (var i = 2; i < tables.length; i++) {
+					newTables[i+1] = tables[i];
+				}
+				tables = newTables;
+			}
+		}
 
 		switch (tables.length) {
 		case 2:
@@ -462,7 +479,7 @@ function saveHack() {
 			elem.value = value;
 			form.appendChild(elem);
 		}
-		
+
 		var frame = document.getElementById("hackFrame");
 		if (!frame) {
 			frame = document.createElement("iframe");
@@ -496,7 +513,7 @@ function saveHack() {
 }
 
 function sltServer_onChange() {
-	var btnShare = document.getElementById("btnShare"); 
+	var btnShare = document.getElementById("btnShare");
 	btnShare.disabled = false;
 	btnShare.className = "";
 }
@@ -537,9 +554,9 @@ function addHackShareBtn() {
 	cell.appendChild(btnShare);
 }
 
-// ___  ____         _                 
-// |  \/  (_)       (_)                
-// | .  . |_ ___ ___ _  ___  _ __  ___ 
+// ___  ____         _
+// |  \/  (_)       (_)
+// | .  . |_ ___ ___ _  ___  _ __  ___
 // | |\/| | / __/ __| |/ _ \| '_ \/ __|
 // | |  | | \__ \__ \ | (_) | | | \__ \
 // \_|  |_/_|___/___/_|\___/|_| |_|___/
@@ -547,10 +564,10 @@ function addHackShareBtn() {
 function saveMissions() {
 	var server = servers[document.getElementById("sltServer").selectedIndex];
 
-	var btnShare = document.getElementById("btnShare"); 
+	var btnShare = document.getElementById("btnShare");
 	btnShare.disabled = "true";
 	btnShare.className = "disabled";
-	
+
 	function postMissions(account) {
 		var str = document.location.hostname;
 		var universe = str.substring(0, str.indexOf("."));
@@ -561,7 +578,7 @@ function saveMissions() {
 			return false;
 		account.name = acc.name;
 		account.password = acc.password;
-		
+
 		function extractWord(text, startsWith, endsWith, fromStart) {
 			if (fromStart) {
 				var i = text.toLowerCase().indexOf(startsWith.toLowerCase());
@@ -645,7 +662,7 @@ function saveMissions() {
 			var cellCount = msgTable.rows[2].cells.length;
 			if ((cellCount == 3) && (mission.type != MISSION_TRANSPORT_VIP)) {
 				mission.amount = extractFirstText(msgTable.rows[2].cells[0]);
-				if (mission.type == MISSION_VIP_ACTION_TRIP) 
+				if (mission.type == MISSION_VIP_ACTION_TRIP)
 					mission.amount = mission.amount.split(" ")[1];
 			}
 			cell = msgTable.rows[2].cells[cellCount - 1];
@@ -738,10 +755,10 @@ function addMissionsShareBtn() {
 	cell.appendChild(btnShare);
 }
 
-// ___  ___      _       
-// |  \/  |     (_)      
-// | .  . | __ _ _ _ __  
-// | |\/| |/ _` | | '_ \ 
+// ___  ___      _
+// |  \/  |     (_)
+// | .  . | __ _ _ _ __
+// | |\/| |/ _` | | '_ \
 // | |  | | (_| | | | | |
 // \_|  |_/\__,_|_|_| |_|
 
