@@ -38,6 +38,8 @@
 		const ENABLE_PAYMENT_SHARE = true; // set to "false" to disable
 
 		const ENABLE_COMMENTS = true; // set to "false" to disable
+		const ENABLE_PUBLIC = true; // set to "false" to disable
+		const PUBLIC_UNIVERSE = 'Orion'; // set to 'Orion', 'Artemis', or 'Pegasus'
 
 		const ENABLE_MAIN_PAGE = true; // set to "false" to disable
 		const MAIN_PAGE_TITLE = "Pardus Infocenter - Main Page";  //Modify this so you can change the main page title

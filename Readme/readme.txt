@@ -11,16 +11,18 @@ In order to install and use the Pardus Infocenter, you must have a web host that
 
 To use the Greasemonkey script (which is included), Firefox and the Greasemonkey extension are required.
 
+UPGRADE
+If you have 1.5b2.005 or any other version installed, import "/mysql/upgrade-1.6.sql" in phpMyAdmin
+
 INSTALLATION
 1) Create a new database and import "/mysql/db.sql" in phpMyAdmin
 a. Alternatively, if you don't have any other installations of the Pardus Infocenter, you could import "/mysql/db.sql" into an existing database.
 2) Open up "/infocenter/modules/settings_mod.php" and specify your "DB Settings."
 3) Copy the content of the "/infocenter" folder to the appropriate folder on your web host.
 4) Go to "http://www.yourdomain.com/(path)/infocenter" and test your login and password. Default logins are the following (Login/Password, case sensitive):
-a. root/Pardus
-b. Orion-View/Pardus
-c. Artemis-View/Pardus
-d. Pegasus-View/Pardus
+a. Orion-Admin/Pardus
+b. Artemis-Admin/Pardus
+c. Pegasus-Admin/Pardus
 5) If you log in successfully, proceed to download and test the Greasemonkey Script. If not, go back to step 2 and make sure that your settings are correct.
 6) Change the password on the root account, or create an account for yourself and delete the root account.
 7) Your setup should be finished. See the next section for options on how to customize your installation.

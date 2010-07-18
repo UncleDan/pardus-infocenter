@@ -25,10 +25,12 @@
 	<td height="100%" valign="middle" align="center">
 		<form action="index.php" method="POST">
 		<table class="messagestyle">
+		<?php if (SettingsMod::ENABLE_PUBLIC): ?>
 		<tr>
-			<a href="index.php?acc=Public&pwd=public" style="font-weight: bold; font-size: 12pt">click here for public access</a>
+			<a href="index.php?acc=Public-<?php echo(SettingsMod::PUBLIC_UNIVERSE); ?>&pwd=public" style="font-weight: bold; font-size: 12pt">click here for public access</a>
 			<br><br>
 		</tr>
+		<?php endif; ?>
 		<tr>
 			<th colspan="3">Log in to <?php echo(SettingsMod::PAGE_TITLE); ?></th>
 		</tr>

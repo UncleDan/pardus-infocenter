@@ -40,14 +40,12 @@ CREATE TABLE IF NOT EXISTS `account` (
 --
 
 INSERT INTO `account` (`id`, `universe`, `name`, `password`, `permissions`, `level`) VALUES
-(1, 'Orion', 'root', '986d76480b0b202c14f23ffd3b977f68', 0, 'Admin'),
-(2, 'Artemis', 'Public', '4c9184f37cff01bcdc32dc486ec36961', 715827882, 'Open'),
-(3, 'Orion', 'Orion-Send', '986d76480b0b202c14f23ffd3b977f68', 0, 'Confidential'),
-(4, 'Artemis', 'Artemis-Send', '986d76480b0b202c14f23ffd3b977f68', 0, 'Confidential'),
-(5, 'Pegasus', 'Pegasus-Send', '986d76480b0b202c14f23ffd3b977f68', 0, 'Confidential'),
-(6, 'Orion', 'Orion-View', '986d76480b0b202c14f23ffd3b977f68', 715827882, 'Confidential'),
-(7, 'Artemis', 'Artemis-View', '986d76480b0b202c14f23ffd3b977f68', 715827882, 'Confidential'),
-(8, 'Pegasus', 'Pegasus-View', '986d76480b0b202c14f23ffd3b977f68', 715827882, 'Confidential');
+(1, 'Orion', 'Orion-Admin', '986d76480b0b202c14f23ffd3b977f68', 0, 'Admin'),
+(2, 'Artemis', 'Artemis-Admin', '986d76480b0b202c14f23ffd3b977f68', 0, 'Admin'),
+(3, 'Pegasus', 'Pegasus-Admin', '986d76480b0b202c14f23ffd3b977f68', 0, 'Admin'),
+(4, 'Orion', 'Orion-Public', '4c9184f37cff01bcdc32dc486ec36961', 715827882, 'Open'),
+(5, 'Artemis', 'Artemis-Public', '4c9184f37cff01bcdc32dc486ec36961', 715827882, 'Open'),
+(6, 'Pegasus', 'Pegasus-Public', '4c9184f37cff01bcdc32dc486ec36961', 715827882, 'Open');
 
 -- --------------------------------------------------------
 
@@ -87,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `comment` (
   `when` datetime NOT NULL,
   `data` text NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=26 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=26 ;
 
 -- --------------------------------------------------------
 
@@ -132,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `level` (
   `level` smallint(2) unsigned NOT NULL,
   `name` varchar(20) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `level`
@@ -186,5 +184,5 @@ CREATE TABLE IF NOT EXISTS `payment` (
   `credits` int(12) default NULL,
   `level` varchar(20) default 'Confidential',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=85 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=85 ;
 
