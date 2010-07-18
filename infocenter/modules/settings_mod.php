@@ -22,7 +22,7 @@
 		const SESSION_NAME = "pardus_infocenter";
 
 		//Page Settings
-		const PAGE_TITLE = "NPA Pardus Infocenter"; //change this to what you want to appear in the title of your pages
+		const PAGE_TITLE = "Pardus Infocenter"; //change this to what you want to appear in the title of your pages
 		const PAGE_FAVICON = "favicon.ico"; // Upload a new favicon  to the main directory
 		const PAGE_RECORDS_PER_PAGE = 50;
 		const PAGE_STARTING_PAGE = "main"; //possible values: "combats","hacks","missions","main" (case sensitive)
