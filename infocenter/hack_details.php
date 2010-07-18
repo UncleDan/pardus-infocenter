@@ -265,7 +265,7 @@ Hack log was not found.
 				<?php if ($building["commodities"]):?>
 					<?php for ($j = 0; $j < count($building["commodities"]); $j++):?>
 						<?php if (($j % $resPerRow == 0) && ($j != 0)) echo("<br>")?>
-						<img src="<?php printf("%s/res/%s", SettingsMod::STATIC_IMAGES, $building["commodities"][$j]["img"])?>">:&nbsp;<?php echo($building["commodities"][$j]["amount"])?>&nbsp;
+						<img src="<?php printf("%s/res/%s", SettingsMod::STATIC_IMAGES, $building["commodities"][$j]["img_name"])?>">:&nbsp;<?php echo($building["commodities"][$j]["amount"])?>&nbsp;
 					<?php endfor;?>
 				<?php endif;?>
 				</td>
@@ -273,7 +273,7 @@ Hack log was not found.
 				<?php if ($building["stock"]):?>
 					<?php for ($j = 0; $j < count($building["stock"]); $j++):?>
 						<?php if (($j % $resPerRow == 0) && ($j != 0)) echo("<br>")?>
-						<img src="<?php printf("%s/res/%s", SettingsMod::STATIC_IMAGES, $building["stock"][$j]["img"])?>">:&nbsp;<?php echo($building["stock"][$j]["amount"])?>&nbsp;
+						<img src="<?php printf("%s/res/%s", SettingsMod::STATIC_IMAGES, $building["stock"][$j]["img_name"])?>">:&nbsp;<?php echo($building["stock"][$j]["amount"])?>&nbsp;
 					<?php endfor;?>
 				<?php endif;?>
 				</td>
