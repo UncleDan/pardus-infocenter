@@ -100,7 +100,17 @@ KNOWN BUGS/TO DO LIST
 VERSION HISTORY
 
 1.6 (2010-07-18)
-- 
+ - Added security levels, ('Open', 'Confidential', 'Admin').
+ - Added public access for viewing 'Open' submissions.
+ - Added security level selection to userscript.
+ - Added commenting system.
+ - Added payment logging system.
+ - Added account management.
+ - Added a new permissions system that is bitwise, allowing full control over permissions to the users.
+ - Added an 'easy' mode for installing the GM script, which fills everything out for the user.
+ - Fixed bug with squadron vs squadron combat.
+ - Fixed bug with hack level when no buildings are owned.
+ - Reversed the effects of magic quotes if it is enabled, fixing extra slashes showing up everywhere.  Removed the "brute repairs" that people were doing since they thought it was a javascript bug.
 1.5b2.005 (2010-04-16)
 - revised "hack_add.php" (thanks Macbeth) *Uncledan*
 1.5b2.004f (2010-03-07)
