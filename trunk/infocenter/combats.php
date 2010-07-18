@@ -1,18 +1,22 @@
 <?php
-	require("modules/security_mod.php");
-	require("modules/combat_mod.php");
-	require("npc_images.php");
-	require("page_navigator.php");
-	
+	require_once("global.php");
+	require_once("modules/security_mod.php");
+	require_once("modules/comment_mod.php");
+	require_once("modules/combat_mod.php");
+	require_once("npc_images.php");
+	require_once("page_navigator.php");
+
 	SecurityMod::login();
 
 	if (!SettingsMod::ENABLE_COMBAT_SHARE)
 		SecurityMod::logout();
-		
+
 	$permissions = $_SESSION["account"]->getPermissions();
-	if ( !($permissions==2 || $permissions==3 || $permissions==5 || $permissions==6) )
+	if (!$permissions->has(Permissions::VIEW_COMBATS))
 		SecurityMod::logout();
-		
+
+	$level = $_SESSION["account"]->getLevel();
+
 ?>
 <html>
 <head>
@@ -21,16 +25,16 @@
 <script src="main.js" type="text/javascript"></script>
 <script src="info.js" type="text/javascript"></script>
 <script language="JavaScript" type="text/javascript">
-    var image_path = <?php printf("\"%s/\"", SettingsMod::STATIC_IMAGES)?>;
+	var image_path = <?php printf("\"%s/\"", SettingsMod::STATIC_IMAGES)?>;
 
 	function combatDetails(combatId) {
-    	var leftPos = 0;
-    	var topPos = 0;
-    	if (screen) {
-        	leftPos = (screen.width / 2) - 375;
-        	topPos = (screen.height / 2) - 275;
-    	}
-    	window.open("combat_details.php?id=" + combatId, "_blank", "width=750,height=550,scrollbars=1,resizable=1,left=" + leftPos + ",top=" + topPos);
+		var leftPos = 0;
+		var topPos = 0;
+		if (screen) {
+			leftPos = (screen.width / 2) - 375;
+			topPos = (screen.height / 2) - 275;
+		}
+		window.open("combat_details.php?id=" + combatId, "_blank", "width=750,height=550,scrollbars=1,resizable=1,left=" + leftPos + ",top=" + topPos);
 	}
 
 	var combats = [];
@@ -51,6 +55,7 @@
 			$filterOpponent,
 			$filterOutcome,
 			$filterAdditional,
+			$level,
 			$pageNumber,
 			$pageCount
 		);
@@ -133,7 +138,7 @@ function getCombatPreview(i) {
 		"</tr>" +
 		"<tr>" +
 			"<td nowrap>" +
-				"Hull: " + info.attacker.hullB + (info.attacker.hullA == info.attacker.hullB ? "" : " (<font color='red'>-" + (info.attacker.hullA - info.attacker.hullB) + "</font>)") + 
+				"Hull: " + info.attacker.hullB + (info.attacker.hullA == info.attacker.hullB ? "" : " (<font color='red'>-" + (info.attacker.hullA - info.attacker.hullB) + "</font>)") +
 				"<br>" +
 				"Armour: " + info.attacker.armourB + (info.attacker.armourA == info.attacker.armourB ? "" : " (<font color='red'>-" + (info.attacker.armourA - info.attacker.armourB) + "</font>)") +
 				"<br>" +
@@ -149,7 +154,7 @@ function getCombatPreview(i) {
 			"</td>" +
 		"</tr>" +
 		"</table>";
-	return result; 
+	return result;
 }
 </script>
 </head>
@@ -175,7 +180,7 @@ function getCombatPreview(i) {
 								<select name="type" style="width:120">
 									<option value="">All</option>
 									<?php for ($i = 0; $i < count($combatTypes); $i++):?>
-									<option value="<?php echo($combatTypes[$i])?>" <?php if ($combatTypes[$i] == $filterType) echo("selected")?>>
+									<option value="<?php echo($combatTypes[$i])?>" <?php if ($combatTypes[$i] == $filterType) echo('selected="selected"')?>>
 										<?php echo($combatTypes[$i])?>
 									</option>
 									<?php endfor?>
@@ -192,7 +197,7 @@ function getCombatPreview(i) {
 								<select name="outcome" style="width:120">
 									<option value="">All</option>
 									<?php for ($i = 0; $i < count($outcomes); $i++):?>
-									<option value="<?php echo($outcomes[$i])?>" <?php if ($outcomes[$i] == $filterOutcome) echo("selected")?>>
+									<option value="<?php echo($outcomes[$i])?>" <?php if ($outcomes[$i] == $filterOutcome) echo('selected="selected"')?>>
 										<?php echo($outcomes[$i])?>
 									</option>
 									<?php endfor?>
@@ -204,7 +209,7 @@ function getCombatPreview(i) {
 								<select name="additional" style="width:120">
 									<option value="">All</option>
 									<?php for ($i = 0; $i < count($additionals); $i++):?>
-									<option value="<?php echo($additionals[$i])?>" <?php if ($additionals[$i] == $filterAdditional) echo("selected")?>>
+									<option value="<?php echo($additionals[$i])?>" <?php if ($additionals[$i] == $filterAdditional) echo('selected="selected"')?>>
 										<?php echo($additionals[$i])?>
 									</option>
 									<?php endfor?>
@@ -241,6 +246,10 @@ function getCombatPreview(i) {
 				<th><u>Outcome</u></th>
 				<th><u>Defender</u></th>
 				<th><u>Additional</u></th>
+				<?php if (SettingsMod::ENABLE_COMMENTS && $permissions->has(Permissions::VIEW_COMMENTS)): ?>
+				<th><u>Comments</u></th>
+				<?php endif; ?>
+				<th><u>Security</u></th>
 			</tr>
 			<?php
 				$i = 0;
@@ -269,10 +278,14 @@ function getCombatPreview(i) {
 				<td align='center' style='cursor:crosshair' onClick='combatDetails(<?php echo($cmbt->getId())?>)'><?php echo($cmbt->getOutcome())?></td>
 				<td align='center' style='cursor:crosshair' onClick='combatDetails(<?php echo($cmbt->getId())?>)'><?php echo($cmbt->getDefender())?></td>
 				<td align='center' style='cursor:crosshair' onClick='combatDetails(<?php echo($cmbt->getId())?>)'><?php if ($cmbt->getAdditional()) {echo($cmbt->getAdditional());} else {echo("&nbsp;");}?></td>
+				<?php if (SettingsMod::ENABLE_COMMENTS && $permissions->has(Permissions::VIEW_COMMENTS)): ?>
+				<td align='center' style='cursor:crosshair' onClick='combatDetails(<?php echo($cmbt->getId())?>)'><?php echo(CommentMod::getCommentCount('combat', $cmbt->getId())); ?></td>
+				<?php endif; ?>
+				<td align='center' style='cursor:crosshair' onClick='combatDetails(<?php echo($cmbt->getId())?>)'><?php if ($cmbt->getLevel()) {echo($cmbt->getLevel());} else {echo("&nbsp;");}?></td>
 			</tr>
 			<?php endforeach?>
 			<tr>
-				<td colspan="10"><?php drawNavigator()?></td>
+				<td colspan="99"><?php drawNavigator()?></td>
 			</tr>
 			</table>
 		</td>

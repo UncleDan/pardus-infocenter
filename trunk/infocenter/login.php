@@ -1,5 +1,6 @@
 <?php
-	require("modules/settings_mod.php");
+	require_once("global.php");
+	require_once("modules/settings_mod.php");
 ?>
 <html>
 <head>
@@ -25,6 +26,10 @@
 		<form action="index.php" method="POST">
 		<table class="messagestyle">
 		<tr>
+			<a href="index.php?acc=Public&pwd=public" style="font-weight: bold; font-size: 12pt">click here for public access</a>
+			<br><br>
+		</tr>
+		<tr>
 			<th colspan="3">Log in to <?php echo(SettingsMod::PAGE_TITLE); ?></th>
 		</tr>
 		<tr>
@@ -41,10 +46,12 @@
 		</tr>
 		<tr>
 			<td colspan="3" style="font-size: 9px" align="center">&nbsp;</td>
-		</tr>		
+		</tr>
 		<tr>
 			<td colspan="3" style="font-size: 9px" align="center"><?php echo("<small>Powered by </small><strong>".SettingsMod::SCRIPT_NAME."</strong><small> version </small><strong>".SettingsMod::SCRIPT_VERSION."</strong>"); ?></td>
-		</tr>		
+		</tr>
+		<tr>
+		</tr>
 		</table>
 		</form>
 	</td>

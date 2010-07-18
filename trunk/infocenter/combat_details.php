@@ -1,14 +1,18 @@
 <?php
-	require("modules/security_mod.php");
-	require("modules/combat_mod.php");
-	require("npc_images.php");
+	require_once("global.php");
+	require_once("modules/security_mod.php");
+	require_once("modules/combat_mod.php");
+	require_once("modules/comment_mod.php");
+	require_once("modules/level_mod.php");
+	require_once("npc_images.php");
+
 	SecurityMod::login();
 
 	if (!SettingsMod::ENABLE_COMBAT_SHARE)
 		SecurityMod::logout();
 	
 	$permissions = $_SESSION["account"]->getPermissions();
-	if ( !($permissions==2 || $permissions==3 || $permissions==5 || $permissions==6) )
+	if (!$permissions->has(Permissions::VIEW_COMBATS))
 		SecurityMod::logout();
 	
 	$cmbt = CombatMod::getCombat(intval(v($_REQUEST, "id")));
@@ -28,6 +32,7 @@ Combat log was not found.
 <link rel="stylesheet" href="main.css">
 <link href="<?php echo(SettingsMod::PAGE_FAVICON); ?>" type=image/x-icon rel="shortcut icon">
 <script src="main.js" type="text/javascript"></script>
+<script src="comments.js" type="text/javascript"></script>
 <script language="JavaScript" type="text/javascript">
 	function drawReport() {
 		document.getElementById('report').innerHTML = reportHtml;
@@ -71,10 +76,42 @@ Combat log was not found.
 		<div align="center">
 			<h2>Combat Log - Details</h2>
 			<b><a href='javascript:window.close()'>Close</a></b><br><br>
+
 			<b><?php echo($cmbt->getType())?><br>
 			<?php echo($cmbt->getAdditional())?><br>
 			<script language="javascript">document.write(formatDate(<?php echo(strtotime($cmbt->getWhen()) * 1000)?>))</script><br>
-			<?php echo($cmbt->getAttacker())?>&nbsp;<?php echo($cmbt->getOutcome())?>&nbsp;<?php echo($cmbt->getDefender())?></b>
+			<?php $cmbt->drawAttacker(); ?>&nbsp;<?php echo($cmbt->getOutcome())?>&nbsp;<?php $cmbt->drawDefender(); ?></b>
+			<br /><br />
+
+			<!-- security display -->
+			<span style="font-weight: bold; color: #FF0000">Security: <?php echo($cmbt->getLevel())?></span><br>
+
+			<?php // security changing
+			if($_SESSION["account"]->getLevel() == "Admin"):
+				$levels = LevelMod::getLevels();
+				?>
+			<br>
+			<form method="post" action="combat_level.php">
+			<input type="hidden" name="id" value="<?php echo $cmbt->getId(); ?>" />
+			Change Security Level:
+			<select name="level">
+				<?php foreach($levels as $level): ?>
+				<option<?php if ($level->getName() == $cmbt->getLevel())
+					echo ' selected="selected"'; ?>
+				><?php echo $level->getName(); ?></option>
+				<?php endforeach; ?>
+			</select>
+			<input type="submit" value="Update" />
+			</form>
+			<br>
+			<?php endif; ?>
+
+			<?php // comment display
+			if (SettingsMod::ENABLE_COMMENTS && $permissions->has(Permissions::VIEW_COMMENTS)):
+				CommentMod::drawComments('combat', $cmbt->getId(), $permissions); ?>
+				<br /><br />
+			<?php endif; ?>
+
 			<div id="report">
 			</div><br>
 			<b><a href='javascript:window.close()'>Close</a></b>

@@ -1,6 +1,7 @@
 <?php
-	require("modules/security_mod.php");
-	require("modules/mission_mod.php");
+	require_once("global.php");
+	require_once("modules/security_mod.php");
+	require_once("modules/mission_mod.php");
 
 	$acc = SecurityMod::checkLogin();
 	if (is_null($acc)) {
@@ -14,7 +15,7 @@
 	}
 	
 	$permissions = $acc->getPermissions();
-	if ( !($permissions==1 || $permissions==3) ) {
+	if (!$permissions->has(Permissions::ADD_MISSIONS)) {
 		echo("Insufficient permissions");
 		exit;
 	}

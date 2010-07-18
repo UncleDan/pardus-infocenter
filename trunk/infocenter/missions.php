@@ -1,8 +1,9 @@
 <?php
-	require("modules/security_mod.php");
-	require("modules/mission_mod.php");
-	require("npc_images.php");
-	require("page_navigator.php");
+	require_once("global.php");
+	require_once("modules/security_mod.php");
+	require_once("modules/mission_mod.php");
+	require_once("npc_images.php");
+	require_once("page_navigator.php");
 	
 	SecurityMod::login();
 	
@@ -10,7 +11,7 @@
 		SecurityMod::logout();
 	
 	$permissions = $_SESSION["account"]->getPermissions();
-	if ( !($permissions==2 || $permissions==3) )
+	if (!$permissions->has(Permissions::VIEW_MISSIONS))
 		SecurityMod::logout();
 
 	$pageNumber = intval(v($_REQUEST, "page"));
