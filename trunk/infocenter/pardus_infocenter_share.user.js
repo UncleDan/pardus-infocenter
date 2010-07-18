@@ -279,7 +279,7 @@ function saveHack() {
 					if (tag.toLowerCase() == "img") {
 						var name = node.src;
 						name = name.substr(name.lastIndexOf("/") + 1);
-						res = {img: name};
+						res = {img_name: name};
 					}
 				}
 				else {
