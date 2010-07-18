@@ -11,17 +11,17 @@
 		// this is a list of permissions available
 		public static $view_perms = array(
 			'VIEW_COMMENTS' => 'View Comments',
-			'VIEW_COMBATS' => 'View Combats',
-			'VIEW_HACKS' => 'View Hacks',
+			'VIEW_COMBATS'  => 'View Combats',
+			'VIEW_HACKS'    => 'View Hacks',
 			'VIEW_MISSIONS' => 'View Missions',
 			'VIEW_PAYMENTS' => 'View Payments'
 		);
 		public static $modify_perms = array(
 			'MODIFY_COMMENTS' => 'Modify Comments',
-			'ADD_COMBATS' => 'Add Combats',
-			'ADD_HACKS' => 'Add Hacks',
-			'ADD_MISSIONS' => 'Add Missions',
-			'ADD_PAYMENTS' => 'Add Payments'
+			'ADD_COMBATS'     => 'Add Combats',
+			'ADD_HACKS'       => 'Add Hacks',
+			'ADD_MISSIONS'    => 'Add Missions',
+			'ADD_PAYMENTS'    => 'Add Payments'
 		);
 
 		// THESE MUST BE ALTERNATING BETWEEN VIEW AND MODIFY/ADD FOR VIEW ONLY
