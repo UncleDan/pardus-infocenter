@@ -1,5 +1,6 @@
 <?php
-	require("modules/settings_mod.php");
+	require_once("global.php");
+	require_once("modules/settings_mod.php");
 ?>
 <html>
 <head>

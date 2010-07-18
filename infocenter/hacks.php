@@ -1,7 +1,9 @@
 <?php
-	require("modules/security_mod.php");
-	require("modules/hack_mod.php");
-	require("page_navigator.php");
+	require_once("global.php");
+	require_once("modules/security_mod.php");
+	require_once("modules/comment_mod.php");
+	require_once("modules/hack_mod.php");
+	require_once("page_navigator.php");
 
 	SecurityMod::login();
 
@@ -9,8 +11,10 @@
 		SecurityMod::logout();
 	
 	$permissions = $_SESSION["account"]->getPermissions();
-	if ( !($permissions==2 || $permissions==3 || $permissions==8 || $permissions==9) )
+	if (!$permissions->has(Permissions::VIEW_HACKS))
 		SecurityMod::logout();
+
+	$level = $_SESSION["account"]->getLevel();
 
 	$pageNumber = intval(v($_REQUEST, "page"));
 	if ($pageNumber < 1)
@@ -18,7 +22,7 @@
 	$filters["universe"] = $_SESSION["account"]->getUniverse();
 	$filters["method"] = v($_REQUEST, "method");
 	$filters["pilot"] = v($_REQUEST, "pilot");
-	$hacks = HackMod::getHacks($filters, $pageNumber, $pageCount);
+	$hacks = HackMod::getHacks($filters, $level, $pageNumber, $pageCount);
 
 	$hackMethods = array("brute", "skilled", "freak", "guru");
 
@@ -40,13 +44,13 @@
 <script src="info.js" type="text/javascript"></script>
 <script language="JavaScript" type="text/javascript">
 	function hackDetails(hackId) {
-    	var leftPos = 0;
-    	var topPos = 0;
-    	if (screen) {
-        	leftPos = (screen.width / 2) - 375;
-        	topPos = (screen.height / 2) - 275;
-    	}
-    	window.open("hack_details.php?id=" + hackId, "_blank", "width=750,height=550,scrollbars=1,resizable=1,left=" + leftPos + ",top=" + topPos);
+		var leftPos = 0;
+		var topPos = 0;
+		if (screen) {
+			leftPos = (screen.width / 2) - 375;
+			topPos = (screen.height / 2) - 275;
+		}
+		window.open("hack_details.php?id=" + hackId, "_blank", "width=750,height=550,scrollbars=1,resizable=1,left=" + leftPos + ",top=" + topPos);
 	}
 </script>
 </head>
@@ -67,7 +71,7 @@
 								<select name="method" style="width:120">
 									<option value="">All</option>
 									<?php foreach ($hackMethods as $hackMethod):?>
-									<option value="<?php echo($hackMethod)?>" <?php if ($hackMethod == $filters["method"]) echo("selected")?>><?php echo($hackMethod)?></option>
+									<option value="<?php echo($hackMethod)?>" <?php if ($hackMethod == $filters["method"]) echo('selected="selected"')?>><?php echo($hackMethod)?></option>
 									<?php endforeach?>
 								</select>
 							</td>
@@ -103,6 +107,10 @@
 				<th><u>Location</u></th>
 				<th><u>Pilot</u></th>
 				<th><u>Method</u></th>
+				<?php if (SettingsMod::ENABLE_COMMENTS && $permissions->has(Permissions::VIEW_COMMENTS)): ?>
+				<th><u>Comments</u></th>
+				<?php endif; ?>
+				<th><u>Security</u></th>
 			</tr>
 			<?php
 				$i = 0;
@@ -120,10 +128,14 @@
 				<td align='center' style='cursor:crosshair' onClick='hackDetails(<?php echo($hack["id"])?>)'><?php printf("%s %s", v($hack, "sector"), v($hack, "coords"))?></td>
 				<td align='center' style='cursor:crosshair' onClick='hackDetails(<?php echo($hack["id"])?>)'><?php echo($hack["pilot"])?></td>
 				<td align='center' style='cursor:crosshair' onClick='hackDetails(<?php echo($hack["id"])?>)'><?php echo($hack["method"])?></td>
+				<?php if (SettingsMod::ENABLE_COMMENTS && $permissions->has(Permissions::VIEW_COMMENTS)): ?>
+				<td align='center' style='cursor:crosshair' onClick='hackDetails(<?php echo($hack["id"])?>)'><?php echo(CommentMod::getCommentCount('hack', $hack["id"]))?></td>
+				<?php endif; ?>
+				<td align='center' style='cursor:crosshair' onClick='hackDetails(<?php echo($hack["id"])?>)'><?php echo($hack["level"])?></td>
 			</tr>
-			<?php endforeach?>
+			<?php endforeach; ?>
 			<tr>
-				<td colspan="10"><?php drawNavigator()?></td>
+				<td colspan="99"><?php drawNavigator()?></td>
 			</tr>
 			</table>
 		</td>

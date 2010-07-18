@@ -30,3 +30,7 @@ input.disabled {background-color:#CCCCCC; color:#B5B5B5;}
 .upgradestyle {border-width:2px; border-color:#A0B1C9; border-style:outset; padding: 5px;}
 #tipBox {position:absolute; width: 200px; z-index: 100; border: 1pt black solid; background: #000000; visibility: hidden; padding-left: 0px; padding-right: 0px; padding-top: 0px; padding-bottom: 0px;}
 ul {padding-left:0.5cm; margin-left:0cm}
+textarea { background-color: #00001C; color: #D0D1D9; font-size: 12px; }
+
+#comments { display: none; }
+textarea.comment { width: 480px; height: 150px; }

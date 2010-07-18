@@ -1,9 +1,10 @@
 <?php
 	require_once("base_mod.php");
+	require_once("level_mod.php");
 	require_once("xml_helper.php");
 
 	class HackMod extends BaseMod {
-		public static function addHack($universe, $data) {
+		public static function addHack($universe, $data, $level) {
 			$doc = new DOMDocument();
 			$doc->loadXML($data);
 
@@ -27,11 +28,11 @@
 					"insert into ".SettingsMod::DB_TABLE_PREFIX."hack(" .
 						"`date`, universe, method, location, pilotId, pilot, credits, experience, " .
 						"cluster, sector, coords, shipStatus, buildingPositions, buildings, " .
-						"reputation, buildingAmount, foes, friends, foeAlliances, friendAlliances" .
+						"reputation, buildingAmount, foes, friends, foeAlliances, friendAlliances, level" .
 					") " .
 					"values (" .
 						"'%s', '%s', '%s', '%s', %d, '%s', %d, %d, '%s', '%s', " .
-						"'%s', '%s', '%s', '%s', %d, %d, '%s', '%s', '%s', '%s'" .
+						"'%s', '%s', '%s', '%s', %d, %d, '%s', '%s', '%s', '%s', '%s'" .
 					")",
 					date("Y-m-d H-i-s", $hack["date"] / 1000),
 					$universe,
@@ -52,19 +53,33 @@
 					$foes,
 					$friends,
 					$foeAlliances,
-					$friendAlliances
+					$friendAlliances,
+					$level
 				);
 			return mysql_query($sql, $conn);
 		}
 
-		public static function getHacks($filters, &$pageNumber, &$pageCount) {
+		public static function getHacks($filters, $level, &$pageNumber, &$pageCount) {
 			$conn = self::getConnection();
+
+			$join = "";
+
 			$where = sprintf("where universe = '%s' ", $_SESSION["account"]->getUniverse());
 			if ($filters["method"])
 				$where .= sprintf("and method = '%s' ", mysql_real_escape_string($filters["method"]));
 			if ($filters["pilot"])
 				$where .= sprintf("and pilot = '%s' ", mysql_real_escape_string($filters["pilot"]));
-			$sql = "select count(*) as cnt from ".SettingsMod::DB_TABLE_PREFIX."hack " . $where;
+
+			// get security level of account, and filter on that
+			$level = LevelMod::accountClearance($_SESSION["account"]->getName());
+			$join .= "join level as l on l.name = h.level ";
+			$where .=
+				sprintf(
+					"and l.level <= %d ",
+					intval($level)
+				);
+
+			$sql = "select count(*) as cnt from ".SettingsMod::DB_TABLE_PREFIX."hack as h " . $join . $where;
 			$result = mysql_query($sql, $conn);
 			$row = mysql_fetch_assoc($result);
 			$recordCount = $row["cnt"];
@@ -82,7 +97,8 @@
 				sprintf(
 					"select * from ( " .
 						"select * from (" .
-							"select * from ".SettingsMod::DB_TABLE_PREFIX."hack " .
+							"select h.* from ".SettingsMod::DB_TABLE_PREFIX."hack as h " .
+							$join .
 							$where .
 							"order by `date` desc " .
 							"limit 0, %d" .
@@ -132,6 +148,17 @@
 				$hack = null;
 			mysql_close($conn);
 			return $hack;
+		}
+
+		public static function updateLevel($id, $level) {
+			$conn = self::getConnection();
+			$sql = sprintf(
+				"update hack set level = '%s' where id = %d",
+				mysql_real_escape_string($level),
+				intval($id)
+			);
+
+			mysql_query($sql, $conn);
 		}
 	}
 ?>

@@ -1,5 +1,6 @@
 <?php
 	require_once("base_mod.php");
+	require_once("level_mod.php");
 	require_once("combat.php");
 
 	class CombatMod extends BaseMod {
@@ -9,9 +10,9 @@
 				sprintf(
 					"insert into ".SettingsMod::DB_TABLE_PREFIX."combat(" .
 						"pid, universe, type, `when`, sector, coords, " .
-						"attacker, defender, outcome, additional, data" .
+						"attacker, defender, outcome, additional, level, data" .
 					")" .
-					"select %d, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s' " .
+					"select %d, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s' " .
 					"from (select count(*) as cnt from ".SettingsMod::DB_TABLE_PREFIX."combat where pid = %d and universe = '%2\$s') as tmp " .
 					"where tmp.cnt = 0",
 					$cmbt->getPid(),
@@ -24,20 +25,24 @@
 					mysql_real_escape_string($cmbt->getDefender()),
 					mysql_real_escape_string($cmbt->getOutcome()),
 					mysql_real_escape_string($cmbt->getAdditional()),
+					mysql_real_escape_string($cmbt->getLevel()),
 					mysql_real_escape_string($cmbt->getData()),
 					$cmbt->getPid()
 				);
+			echo $sql;
 			return mysql_query($sql, $conn);
 		}
 
 		public static function getCombats(
-			$type, $opponent, $outcome, $additional, &$pageNumber, &$pageCount
+			$type, $opponent, $outcome, $additional, $level, &$pageNumber, &$pageCount
 		) {
 			$conn = self::getConnection();
 
-			$where = sprintf("where universe = '%s' ", $_SESSION["account"]->getUniverse());
+			$join = "";
+
+			$where = sprintf("where c.universe = '%s' ", $_SESSION["account"]->getUniverse());
 			if (!empty($type))
-				$where .= sprintf("and `type` = '%s' ", mysql_real_escape_string($type));
+				$where .= sprintf("and c.`type` = '%s' ", mysql_real_escape_string($type));
 
 			if (!empty($opponent)) {
 				$outcomeForAttacker = "";
@@ -65,9 +70,9 @@
 				$where .=
 					sprintf(
 						"and (" .
-							"(attacker = '%1\$s'%2\$s)" .
+							"(c.attacker = '%1\$s'%2\$s)" .
 							" or " .
-							"(defender = '%1\$s'%3\$s)" .
+							"(c.defender = '%1\$s'%3\$s)" .
 						") ",
 						mysql_real_escape_string($opponent),
 						$outcomeForAttacker,
@@ -87,17 +92,26 @@
 				else
 				if ($outcome == "Raid")
 					$outcomeAnybody = "raided";
-				$where .= "and outcome = '" . $outcomeAnybody . "' ";
+				$where .= "and c.outcome = '" . $outcomeAnybody . "' ";
 			}
 
 			if (!empty($additional))
 				$where .=
 					sprintf(
-						"and additional = '%s' ",
+						"and c.additional = '%s' ",
 						mysql_real_escape_string($additional)
 					);
 
-			$sql = "select count(*) as cnt from ".SettingsMod::DB_TABLE_PREFIX."combat " . $where;
+			// get security level of account, and filter on that
+			$level = LevelMod::accountClearance($_SESSION["account"]->getName());
+			$join .= "join level as l on l.name = c.level ";
+			$where .=
+				sprintf(
+					"and l.level <= %d ",
+					intval($level)
+				);
+
+			$sql = "select count(*) as cnt from ".SettingsMod::DB_TABLE_PREFIX."combat as c " . $join . $where;
 			$result = mysql_query($sql, $conn);
 			$row = mysql_fetch_assoc($result);
 			$recordCount = $row["cnt"];
@@ -117,7 +131,8 @@
 				sprintf(
 					"select * from ( " .
 						"select * from (" .
-							"select * from ".SettingsMod::DB_TABLE_PREFIX."combat " .
+							"select c.* from ".SettingsMod::DB_TABLE_PREFIX."combat as c " .
+							$join .
 							$where .
 							"order by pid desc " .
 							"limit 0, %d" .
@@ -141,10 +156,11 @@
 						$row["when"],
 						$row["sector"],
 						$row["coords"],
-						str_replace("\'","'",$row["attacker"]), //brute repair to double escape I couldn't find
-						str_replace("\'","'",$row["defender"]), //brute repair to double escape I couldn't find
+						$row["attacker"],
+						$row["defender"],
 						$row["outcome"],
 						$row["additional"],
+						$row["level"],
 						$row["data"]
 					);
 				$combats[$cmbt->getId()] = $cmbt;
@@ -171,14 +187,26 @@
 						$row["when"],
 						$row["sector"],
 						$row["coords"],
-						str_replace("\'","'",$row["attacker"]), //brute repair to double escape I couldn't find
-						str_replace("\'","'",$row["defender"]), //brute repair to double escape I couldn't find
+						$row["attacker"],
+						$row["defender"],
 						$row["outcome"],
 						$row["additional"],
+						$row["level"],
 						$row["data"]
 					);
 			else
 				return null;
+		}
+
+		public static function updateLevel($id, $level) {
+			$conn = self::getConnection();
+			$sql = sprintf(
+				"update combat set level = '%s' where id = %d",
+				mysql_real_escape_string($level),
+				intval($id)
+			);
+
+			mysql_query($sql, $conn);
 		}
 	}
 ?>

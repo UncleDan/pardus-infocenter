@@ -1,4 +1,6 @@
 <?php
+	include_once('modules/pd_character.php');
+
 	class Combat {
 		private $id;
 		private $pid;
@@ -11,12 +13,13 @@
 		private $defender;
 		private $outcome;
 		private $additional;
+		private $level;
 		private $data;
 		private $rounds;
 
 		public function __construct(
 			$id, $pid, $universe, $type, $when, $sector, $coords,
-			$attacker, $defender, $outcome, $additional, $data
+			$attacker, $defender, $outcome, $additional, $level, $data
 		) {
 			$this->id = $id;
 			$this->pid = $pid;
@@ -29,6 +32,7 @@
 			$this->defender = $defender;
 			$this->outcome = $outcome;
 			$this->additional = $additional;
+			$this->level = $level;
 			$this->data = $data;
 		}
 
@@ -64,8 +68,18 @@
 			return $this->attacker;
 		}
 
+		public function drawAttacker() {
+			$char = new PD_Character($_SESSION["account"]->getUniverse(), $this->attacker);
+			$char->drawName();
+		}
+
 		public function getDefender() {
 			return $this->defender;
+		}
+
+		public function drawDefender() {
+			$char = new PD_Character($_SESSION["account"]->getUniverse(), $this->defender);
+			$char->drawName();
 		}
 
 		public function getOutcome() {
@@ -74,6 +88,10 @@
 
 		public function getAdditional() {
 			return $this->additional;
+		}
+
+		public function getLevel() {
+			return $this->level;
 		}
 
 		public function getData() {

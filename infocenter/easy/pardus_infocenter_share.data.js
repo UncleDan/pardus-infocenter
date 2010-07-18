@@ -41,13 +41,11 @@ var enablePaymentShare  = true;
 
 var servers = [
 	{
-		name: "PardusInfocenter", //the name you want to be displayed in the combo box
-		url: "http://mysite/infocenter", //the exact url to your Infocenter, no trailing slashes
+		name: "<INFOCENTER_NAME>", //the name you want to be displayed in the combo box
+		url: "<INFOCENTER_URL>", //the exact url to your Infocenter, no trailing slashes
 		accounts: { //the user names you wont to use; to disable a universe, just delete the line, but look twice at commas!!!
 					//ATTENTION: it is suggested to give to these account(s) permission level = 1
-			orion: {name: "Orion-Send", password: "Pardus"},
-			artemis: {name: "Artemis-Send", password: "Pardus"},
-			pegasus: {name: "Pegasus-Send", password: "Pardus"}
+			<UNIVERSE>: {name: "<USERNAME>", password: "<PASSWORD>"}
 		}
 	},
 
