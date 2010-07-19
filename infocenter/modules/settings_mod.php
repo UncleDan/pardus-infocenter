@@ -16,7 +16,7 @@
 		//Userscript Settings
 		const EASY_INSTALL = true;
 		const EASY_NAME = "PardusInfocenter"; //the name you want to be displayed in the combo box
-		const EASY_URL = "http://mysite/infocenter", //the exact url to your Infocenter, no trailing slashes
+		const EASY_URL = "http://mysite/infocenter"; //the exact url to your Infocenter, no trailing slashes
 
 		//Session Settings
 		const SESSION_NAME = "pardus_infocenter";
