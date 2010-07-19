@@ -51,7 +51,7 @@
 
 			// get security level of account, and filter on that
 			$level = LevelMod::accountClearance($_SESSION["account"]->getName());
-			$join .= "join level as l on l.name = p.level ";
+			$join .= "join ".SettingsMod::DB_TABLE_PREFIX."level as l on l.name = p.level ";
 			$where .=
 				sprintf(
 					"and l.level <= %d ",
@@ -114,7 +114,7 @@
 		public static function updateLevel($id, $level) {
 			$conn = self::getConnection();
 			$sql = sprintf(
-				"update payment set level = '%s' where id = %d",
+				"update ".SettingsMod::DB_TABLE_PREFIX."payment set level = '%s' where id = %d",
 				mysql_real_escape_string($level),
 				intval($id)
 			);
