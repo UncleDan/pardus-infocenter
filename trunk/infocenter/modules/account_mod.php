@@ -79,7 +79,7 @@
 		public static function updateLevel($name, $level) {
 			$conn = self::getConnection();
 			$sql = sprintf(
-				"update account set level = '%s' where name = '%s'",
+				"update ".SettingsMod::DB_TABLE_PREFIX."account set level = '%s' where name = '%s'",
 				mysql_real_escape_string($level),
 				mysql_real_escape_string($name)
 			);
@@ -90,7 +90,7 @@
 		public static function updatePermissions($name, $permissions) {
 			$conn = self::getConnection();
 			$sql = sprintf(
-				"update account set permissions = %d where name = '%s'",
+				"update ".SettingsMod::DB_TABLE_PREFIX."account set permissions = %d where name = '%s'",
 				intval($permissions),
 				mysql_real_escape_string($name)
 			);
@@ -101,7 +101,7 @@
 		public static function addAccount($acc) {
 			$conn = self::getConnection();
 			$sql = sprintf(
-				"insert into account (universe, name, password, permissions, level) values ('%s', '%s', '%s', %d, '%s')",
+				"insert into ".SettingsMod::DB_TABLE_PREFIX."account (universe, name, password, permissions, level) values ('%s', '%s', '%s', %d, '%s')",
 				mysql_real_escape_string($acc->getUniverse()),
 				mysql_real_escape_string($acc->getName()),
 				mysql_real_escape_string($acc->getPassword()),
@@ -115,7 +115,7 @@
 		public static function deleteAccount($acc) {
 			$conn = self::getConnection();
 			$sql = sprintf(
-				"delete from account where name = '%s'",
+				"delete from ".SettingsMod::DB_TABLE_PREFIX."account where name = '%s'",
 				$acc->getName()
 			);
 
@@ -125,7 +125,7 @@
 		public static function updatePassword($name, $password) {
 			$conn = self::getConnection();
 			$sql = sprintf(
-				"update account set password = '%s' where name = '%s'",
+				"update ".SettingsMod::DB_TABLE_PREFIX."account set password = '%s' where name = '%s'",
 				mysql_real_escape_string($password),
 				mysql_real_escape_string($name)
 			);

@@ -31,7 +31,7 @@
 			);
 
 			$sql =
-				"select * from comment " .
+				"select * from ".SettingsMod::DB_TABLE_PREFIX."comment " .
 				$where .
 				"order by `when` asc";
 			$comments = array();
@@ -61,7 +61,7 @@
 			);
 
 			$sql =
-				"select count(*) as cnt from comment " .
+				"select count(*) as cnt from ".SettingsMod::DB_TABLE_PREFIX."comment " .
 				$where .
 				"order by `when` asc";
 			$comments = array();
@@ -79,7 +79,7 @@
 			);
 
 			$sql =
-				"select * from comment " .
+				"select * from ".SettingsMod::DB_TABLE_PREFIX."comment " .
 				$where .
 				"order by `when` asc";
 			$comments = array();
@@ -102,7 +102,7 @@
 		public static function updateComment($com) {
 			$conn = self::getConnection();
 			$sql = sprintf(
-				"update comment set data = '%s' where id = %d",
+				"update ".SettingsMod::DB_TABLE_PREFIX."comment set data = '%s' where id = %d",
 				mysql_real_escape_string($com->getData()),
 				intval($com->getId())
 			);
@@ -113,7 +113,7 @@
 		public static function deleteComment($com) {
 			$conn = self::getConnection();
 			$sql = sprintf(
-				"delete from comment where id = %d",
+				"delete from ".SettingsMod::DB_TABLE_PREFIX."comment where id = %d",
 				intval($com->getId())
 			);
 

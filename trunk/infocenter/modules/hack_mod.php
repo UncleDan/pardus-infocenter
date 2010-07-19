@@ -72,7 +72,7 @@
 
 			// get security level of account, and filter on that
 			$level = LevelMod::accountClearance($_SESSION["account"]->getName());
-			$join .= "join level as l on l.name = h.level ";
+			$join .= "join ".SettingsMod::DB_TABLE_PREFIX."level as l on l.name = h.level ";
 			$where .=
 				sprintf(
 					"and l.level <= %d ",
@@ -91,7 +91,7 @@
 			else {
 				$recordsPerPage = $recordCount % SettingsMod::PAGE_RECORDS_PER_PAGE;
 				if ($recordsPerPage == 0 && $recordCount > 0)
-					$recordsPerPage = SettingsMod::PAGE_RECORDS_PER_PAGE; 
+					$recordsPerPage = SettingsMod::PAGE_RECORDS_PER_PAGE;
 			}
 			$sql =
 				sprintf(
@@ -153,7 +153,7 @@
 		public static function updateLevel($id, $level) {
 			$conn = self::getConnection();
 			$sql = sprintf(
-				"update hack set level = '%s' where id = %d",
+				"update ".SettingsMod::DB_TABLE_PREFIX."hack set level = '%s' where id = %d",
 				mysql_real_escape_string($level),
 				intval($id)
 			);
