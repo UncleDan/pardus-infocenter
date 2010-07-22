@@ -1,20 +1,14 @@
 // ==UserScript==
-// @namespace pardus-scripts@uncledan.it
-// @name pardus_infocenter_share
+// @name				Pardus Infocenter Share 1.6
+// @author			Originally by Pio (Orion), updated by Uncledan (Orion)/Larry Legend (Artemis) - Taurvi (Artemis)/Sobkou (Orion) - Aeiri	(Artemis).
+// @namespace		pardus.at
+// @description		Enables to share combat/hack/payment logs and missions bullettin board. For use with Pardus Infocenter v1.6+
 // @include http://*.pardus.at/combat_details.php*
 // @include http://*.pardus.at/hack.php*
 // @include http://*.pardus.at/bulletin_board.php*
 // @include http://*.pardus.at/overview_payment_log.php*
 // ==/UserScript==
 
-// This script is for use with Pardus Infocenter v1.6
-//
-// This script has been modded by Taurvi (Artemis)/Sobkou (Orion) to fit the Pardus Infocenter 1.5b2.004
-//
-// This script has been modified by Brad Cable
-//   (Artemis - Aeiri / Orion - Jetix / Pegasus - Likor)
-//   to fit the Pardus Infocenter v1.6
-//
 // ASCII art made with Doom font at http://patorjk.com/software/taag/
 
 //  _____      _   _   _
@@ -550,7 +544,7 @@ function sltServer_onChange() {
 }
 
 function addHackShareBtn() {
-    var breakline = document.createElement("br");
+	var breakline = document.createElement("br");
 
 	var label = document.createElement("b");
 	label.appendChild(document.createTextNode("Share this hack at: "));
@@ -767,7 +761,7 @@ function saveMissions() {
 }
 
 function addMissionsShareBtn() {
-    var breakline = document.createElement("br");
+	var breakline = document.createElement("br");
 
 	var label = document.createElement("b");
 	label.appendChild(document.createTextNode("Share missions at: "));
@@ -884,7 +878,7 @@ function savePayments() {
 }
 
 function addPaymentShareBtn() {
-	// adds checkboxes to all of the 
+	// adds checkboxes to all of the
 	var table = document.getElementsByTagName("table")[7];
 	var rows = table.getElementsByTagName("tr");
 	for(var i = 0; i < rows.length; i++) {
