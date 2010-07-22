@@ -27,7 +27,7 @@
 		<table class="messagestyle">
 		<?php if (SettingsMod::ENABLE_PUBLIC): ?>
 		<tr>
-			<a href="index.php?acc=Public-<?php echo(SettingsMod::PUBLIC_UNIVERSE); ?>&pwd=public" style="font-weight: bold; font-size: 12pt">click here for public access</a>
+			<a href="index.php?acc=<?php echo(SettingsMod::PUBLIC_UNIVERSE); ?>-Public&pwd=public" style="font-weight: bold; font-size: 12pt">click here for public access</a>
 			<br><br>
 		</tr>
 		<?php endif; ?>
