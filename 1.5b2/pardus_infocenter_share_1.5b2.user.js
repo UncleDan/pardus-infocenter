@@ -41,8 +41,7 @@ var servers = [
 			artemis: {name: "Artemis-Send", password: "Pardus"},
 			pegasus: {name: "Pegasus-Send", password: "Pardus"}
 		}
-	},
-
+	}
 ];
 
 //  _____
