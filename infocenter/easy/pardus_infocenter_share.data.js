@@ -38,11 +38,10 @@ var servers = [
 		name: "<INFOCENTER_NAME>", //the name you want to be displayed in the combo box
 		url: "<INFOCENTER_URL>", //the exact url to your Infocenter, no trailing slashes
 		accounts: { //the user names you wont to use; to disable a universe, just delete the line, but look twice at commas!!!
-					//ATTENTION: it is suggested to give to these account(s) permission level = 1
+					//ATTENTION: if not using EASY script it is suggested to give to these account(s) permissions to send data only
 			<UNIVERSE>: {name: "<USERNAME>", password: "<PASSWORD>"}
 		}
-	},
-
+	}
 ];
 
 //  _____
