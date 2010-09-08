@@ -282,6 +282,25 @@ function saveHack() {
 			return result;
 		}
 
+		// if the user has no buildings, the buildings table is not displayed...
+		// we have to substitute this if it's not there so that data doesn't get
+		// truncated; this operates for the table number provided as the index
+		function fixBuildings(tables, index) {
+			if (tables.length > index) {
+				var buildingsTH = tables[index].getElementsByTagName("th")[0];
+				// if not buildings table
+				if (!buildingsTH || buildingsTH.innerHTML != "Buildings") {
+					var newTables = tables.slice(0, index);
+					newTables[index] = null;
+					for (var i = index; i < tables.length; i++) {
+						newTables[i+1] = tables[i];
+					}
+					tables = newTables;
+				}
+			}
+			return tables;
+		}
+
 		var btnShare = document.getElementById("btnShare");
 		btnShare.disabled = "true";
 		btnShare.className = "disabled";
@@ -317,32 +336,22 @@ function saveHack() {
 		var resourceTable = null;
 		var shipTable = null;
 
-		// if the user has no buildings, the buildings table is not displayed...
-		// we have to substitute this if it's not there so that data doesn't get
-		// truncated
-		if (tables.length > 2) {
-			var buildingsTH = tables[2].getElementsByTagName("th")[0];
-			// if not buildings table
-			if (!buildingsTH || buildingsTH.innerHTML != "Buildings") {
-				var newTables = tables.slice(0, 2);
-				newTables[2] = null;
-				for (var i = 2; i < tables.length; i++) {
-					newTables[i+1] = tables[i];
-				}
-				tables = newTables;
-			}
-		}
-
 		switch (tables.length) {
 		case 2:
 			hack.method = "brute";
 			break;
 		case 4:
+			// tables[2] will be the buildings table
+			tables = fixBuildings(tables, 2);
+
 			hack.method = "skilled";
 			buildingTable = tables[2];
 			foeTable = tables[3];
 			break;
 		case 5:
+			// tables[2] will be the buildings table
+			tables = fixBuildings(tables, 2);
+
 			hack.method = "freak";
 			buildingTable = tables[2];
 			foeTable = tables[3].getElementsByTagName("table")[0];
@@ -350,6 +359,13 @@ function saveHack() {
 			resourceTable = tables[4];
 			break;
 		case 6:
+		case 7:
+		case 8:
+		case 9:
+		case 10: // many buildings possible
+			// tables[3] will be the buildings table
+			tables = fixBuildings(tables, 3);
+
 			hack.method = "guru";
 			shipTable = tables[2];
 			buildingTable = tables[3];
