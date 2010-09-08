@@ -19,7 +19,7 @@
 
 			// get all available levels to the user
 			$sql = sprintf(
-				"select * from ".SettingsMod::DB_TABLE_PREFIX."level where level <= %d",
+				"select * from ".SettingsMod::DB_TABLE_PREFIX."level where level <= %d order by level asc",
 				intval($row["level"])
 			);
 			$result = mysql_query($sql, $conn);

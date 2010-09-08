@@ -106,6 +106,14 @@ Combat log was not found.
 			<br>
 			<?php endif; ?>
 
+			<?php // deletion
+			if($_SESSION["account"]->getLevel() == "Admin"): ?>
+			<a href="combat_delete.php?id=<?php echo $cmbt->getId(); ?>" style="font-weight: bold">Delete Combat</a>
+			<br>
+			<br>
+			<br>
+			<?php endif; ?>
+
 			<?php // comment display
 			if (SettingsMod::ENABLE_COMMENTS && $permissions->has(Permissions::VIEW_COMMENTS)):
 				CommentMod::drawComments('combat', $cmbt->getId(), $permissions); ?>
