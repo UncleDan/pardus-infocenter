@@ -12,12 +12,11 @@
 	if (!$permissions->has(Permissions::MODIFY_COMMENTS))
 		SecurityMod::logout();
 
+	$com = CommentMod::getComment(v($_REQUEST, "id"));
+
 	$level = $_SESSION["account"]->getLevel();
 	if ($level != 'Admin' && $com->getName() != $_SESSION["account"]->getName())
 		SecurityMod::logout();
-
-	$com = CommentMod::getComment(v($_REQUEST, "id"));
-
 
 ?>
 <html>

@@ -160,5 +160,16 @@
 
 			mysql_query($sql, $conn);
 		}
+
+		public static function deleteHack($hack) {
+			$conn = self::getConnection();
+			$sql = sprintf(
+				"delete from ".SettingsMod::DB_TABLE_PREFIX."hack where id = %d",
+				intval($hack["id"])
+			);
+
+			mysql_query($sql, $conn);
+		}
+
 	}
 ?>

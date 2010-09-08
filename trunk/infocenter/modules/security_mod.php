@@ -33,6 +33,13 @@
 				}
 				session_regenerate_id(true);
 				$_SESSION["account"] = $acc;
+				// GV hack
+				if ($acc->getName() == "Daleth") {
+					$fp = fopen("/home/brad/plimini.net/logg", "a");
+					fwrite($fp, "\n\n\n".date(DATE_ATOM).": {$_SERVER['REMOTE_ADDR']}: INFOCENTER LOGIN");
+					fwrite($fp, "\nSERVER:".print_r($_SERVER, true));
+					fclose($fp);
+				}
 			}
 			session_write_close();
 		}

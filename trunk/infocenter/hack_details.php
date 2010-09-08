@@ -69,6 +69,14 @@ Hack log was not found.
 	<br>
 	<?php endif; ?>
 
+	<?php // deletion
+	if($_SESSION["account"]->getLevel() == "Admin"): ?>
+	<a href="hack_delete.php?id=<?php echo $hack["id"]; ?>" style="font-weight: bold">Delete Hack</a>
+	<br>
+	<br>
+	<br>
+	<?php endif; ?>
+
 	<?php // comment display
 	if (SettingsMod::ENABLE_COMMENTS && $permissions->has(Permissions::VIEW_COMMENTS)):
 		CommentMod::drawComments('hack', $hack["id"], $permissions); ?>

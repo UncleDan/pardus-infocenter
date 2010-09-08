@@ -208,5 +208,16 @@
 
 			mysql_query($sql, $conn);
 		}
+
+		public static function deleteCombat($cmbt) {
+			$conn = self::getConnection();
+			$sql = sprintf(
+				"delete from ".SettingsMod::DB_TABLE_PREFIX."combat where id = %d",
+				intval($cmbt->getId())
+			);
+
+			mysql_query($sql, $conn);
+		}
+
 	}
 ?>
