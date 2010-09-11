@@ -123,5 +123,16 @@
 			mysql_close($conn);
 			return $missions;
 		}
+		public static function clearMissions($universe, $days) {
+			$conn = self::getConnection();
+			$date = date('Y-m-d H:i:s', time()-$days*24*60*60);
+			$sql = sprintf(
+				"delete from ".SettingsMod::DB_TABLE_PREFIX."mission where `when` < '%s' and universe = '%s'",
+				$date,
+				$universe
+			);
+
+			mysql_query($sql, $conn);
+		}
 	}
 ?>

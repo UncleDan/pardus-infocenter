@@ -5,7 +5,7 @@
 
 		//Script Info
 		const SCRIPT_NAME = "Pardus Infocenter"; //please don't change that if you don't really need it
-		const SCRIPT_VERSION = "1.6.001"; //please don't change that if you don't really need it
+		const SCRIPT_VERSION = "1.6.3"; //please don't change that if you don't really need it
 
 		//DB settings
 		const DB_SERVER_ADDRESS = "localhost"; //Best left this unless otherwise specified
@@ -55,6 +55,13 @@
 									//for example if you set DB_TABLE_PREFIX = "infocenter_" you *MUST* rename the tables
 									//into "infocenter_account", "infocenter_combat", "infocenter_hack", "infocenter_mission"
 
+		static $MISSION_CLEAR_TIMES = array(
+			'1 day' => 1,
+			'3 days' => 3,
+			'1 week' => 7,
+			'2 weeks' => 14,
+			'1 month' => 30
+		);
 
 	}
 

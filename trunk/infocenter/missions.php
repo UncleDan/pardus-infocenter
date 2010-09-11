@@ -136,10 +136,26 @@
 					</td>
 				</tr>
 				<tr>
-					<td align="center"><input type="submit" value="Filter"></td>
+					<td align="center">
+						<input type="submit" value="Filter">
+					</td>
 				</tr>
 				</table>
 			</form>
+			<?php if ($_SESSION["account"]->getLevel() == "Admin"): ?>
+			<br />
+			<center>
+			<form method="post" action="mission_clear.php">
+				Clear missions older than:
+				<select name="days">
+				<? foreach(SettingsMod::$MISSION_CLEAR_TIMES as $key=>$val): ?>
+					<option value="<?php echo $val; ?>"><?php echo $key; ?></option>
+				<? endforeach; ?>
+				</select>
+				<input type="submit" value="Clear" />
+			</form>
+			<?php endif; ?>
+			</center>
 		</td>
 	</tr>
 	<tr>
