@@ -33,6 +33,8 @@
 		"Shield Recharge",
 		"Ship to Ship Trade",
 		"Squadron Hiring",
+		"Starbase Ownership Change",
+		"Starbase Tax",
 		"Wreck Scan"
 	);
 

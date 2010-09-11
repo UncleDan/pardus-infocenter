@@ -35,11 +35,13 @@ var enablePaymentShare  = true;
 
 var servers = [
 	{
-		name: "<INFOCENTER_NAME>", //the name you want to be displayed in the combo box
-		url: "<INFOCENTER_URL>", //the exact url to your Infocenter, no trailing slashes
+		name: "PardusInfocenter", //the name you want to be displayed in the combo box
+		url: "http://mysite/infocenter", //the exact url to your Infocenter, no trailing slashes
 		accounts: { //the user names you wont to use; to disable a universe, just delete the line, but look twice at commas!!!
 					//ATTENTION: if not using EASY script it is suggested to give to these account(s) permissions to send data only
-			<UNIVERSE>: {name: "<USERNAME>", password: "<PASSWORD>"}
+			orion: {name: "Orion-Send", password: "Pardus"},
+			artemis: {name: "Artemis-Send", password: "Pardus"},
+			pegasus: {name: "Pegasus-Send", password: "Pardus"}
 		}
 	}
 ];
@@ -338,7 +340,16 @@ function saveHack() {
 
 		switch (tables.length) {
 		case 2:
-			hack.method = "brute";
+			// either trade or brute
+			var thText = tables[1].getElementsByTagName("th")[0].innerHTML;
+			if(
+				thText.match(/^Last transactions at /) ||
+				thText.match(/'s last own transactions$/)
+			) {
+				hack.method = "trade";
+			} else {
+				hack.method = "brute";
+			}
 			break;
 		case 4:
 			// tables[2] will be the buildings table
@@ -377,30 +388,79 @@ function saveHack() {
 			return false;
 		}
 
-		var pilotTable = tables[1];
-		hack.date = new Date(pilotTable.rows[0].cells[0].innerHTML.replace(/-/g, "/")).getTime();
-		hack.pilot = pilotTable.rows[1].cells[0].textContent;
-		hack.credits = pilotTable.rows[3].cells[0].innerHTML.replace(/,/g, "");
-		hack.reputation = pilotTable.rows[3].cells[1].innerHTML.replace(/,/g, "");
-		hack.building_amount = pilotTable.rows[3].cells[2].innerHTML;
-		if (pilotTable.rows.length >= 6)
-			hack.experience = pilotTable.rows[5].cells[0].innerHTML.replace(/,/g, "");
-		if (pilotTable.rows.length >= 8)
-			hack.position = getPosition(pilotTable.rows[7].cells[0]);
+		// not all hacks are pilot related
+		var doPilotSearch = true;
 
-		var lookupCell = tables[0].rows[1].cells[0];
-		var pilotSelect = lookupCell.getElementsByTagName("select")[0];
-		if (pilotSelect) {
-			for (var i = 0; i < pilotSelect.length; i++) {
-				var option = pilotSelect.item(i);
-				if (option.text == hack.pilot) {
-					hack.pilot_id = option.value;
-					break;
-				}
+		// trade hack
+		if (hack.method == "trade") {
+			var tradeTable = tables[1];
+			hack.date = new Date(tradeTable.rows[2].cells[0].innerHTML.replace(/-/g, "/")).getTime();
+
+			var thText = tables[1].getElementsByTagName("th")[0].innerHTML;
+			// pilot trade hack
+			if (thText.match(/'s last own transactions$/)) {
+				hack.pilot = thText.replace(/'s last own transactions$/, '');
+			} else {
+				// skip pilot search since it's not a pilot that was hacked
+				doPilotSearch = false;
+
+				// get location and position of hacked structure
+				hack.location = thText.replace(/^Last transactions at /,'');
+				var structure = tables[1].rows[2].cells[1].innerHTML;
+				var pos = structure.replace(/^.*\(([^\)]+)\)$/, '$1');
+				hack.position = {};
+				hack.position.sector = pos.replace(/^(.*) [^ ]+$/, '$1');
+				hack.position.coords = "[" + pos.replace(/^.* ([^ ]+)$/, '$1') + "]";
 			}
+
+			// each transaction is stored in the buildings fields
+			hack.building_amount = tables[1].rows.length-2;
+			hack.buildings = [];
+			for (var i = 0; i < hack.building_amount; i++) {
+				var transaction = {};
+				var hackRow = tables[1].rows[i+2];
+				transaction.date = new Date(hackRow.cells[0].innerHTML.replace(/-/g, "/")).getTime();
+				transaction.position = hackRow.cells[1].innerHTML;
+				var pilot = hackRow.cells[2].innerHTML;
+				transaction.pilot = pilot.replace(/^.*>(.*)<.*$/, '$1');
+				transaction.direction = hackRow.cells[3].innerHTML;
+				transaction.commodity = hackRow.cells[4].innerHTML;
+				transaction.amount = hackRow.cells[5].innerHTML;
+				transaction.average = hackRow.cells[6].innerHTML;
+				transaction.total = hackRow.cells[7].innerHTML;
+				hack.buildings.push(transaction);
+			}
+
+		// any pilot hack
 		} else {
-			var pilotInput = lookupCell.getElementsByTagName("input")[1];
-			hack.pilot_id = pilotInput.value;
+			var pilotTable = tables[1];
+			hack.date = new Date(pilotTable.rows[0].cells[0].innerHTML.replace(/-/g, "/")).getTime();
+			hack.pilot = pilotTable.rows[1].cells[0].textContent;
+			hack.credits = pilotTable.rows[3].cells[0].innerHTML.replace(/,/g, "");
+			hack.reputation = pilotTable.rows[3].cells[1].innerHTML.replace(/,/g, "");
+			hack.building_amount = pilotTable.rows[3].cells[2].innerHTML;
+			if (pilotTable.rows.length >= 6)
+				hack.experience = pilotTable.rows[5].cells[0].innerHTML.replace(/,/g, "");
+			if (pilotTable.rows.length >= 8)
+				hack.position = getPosition(pilotTable.rows[7].cells[0]);
+		}
+
+
+		if (doPilotSearch) {
+			var lookupCell = tables[0].rows[1].cells[0];
+			var pilotSelect = lookupCell.getElementsByTagName("select")[0];
+			if (pilotSelect) {
+				for (var i = 0; i < pilotSelect.length; i++) {
+					var option = pilotSelect.item(i);
+					if (option.text == hack.pilot) {
+						hack.pilot_id = option.value;
+						break;
+					}
+				}
+			} else {
+				var pilotInput = lookupCell.getElementsByTagName("input")[1];
+				hack.pilot_id = pilotInput.value;
+			}
 		}
 
 		if (shipTable != null) {
@@ -459,7 +519,7 @@ function saveHack() {
 			}
 		}
 
-		if (resourceTable) {
+		if (resourceTable != null) {
 			hack.buildings = [];
 			var buildingTables = resourceTable.getElementsByTagName("table");
 			for (var i = 0; i < buildingTables.length; i++) {

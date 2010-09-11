@@ -45,16 +45,16 @@
 					v($hack, "position") ? mysql_real_escape_string(v($hack["position"], "cluster")) : null,
 					v($hack, "position") ? mysql_real_escape_string(v($hack["position"], "sector")) : null,
 					v($hack, "position") ? mysql_real_escape_string(v($hack["position"], "coords")) : null,
-					$shipStatus,
-					$buildingPositions,
-					$buildings,
+					mysql_real_escape_string($shipStatus),
+					mysql_real_escape_string($buildingPositions),
+					mysql_real_escape_string($buildings),
 					mysql_real_escape_string($hack["reputation"]),
 					mysql_real_escape_string($hack["building_amount"]),
-					$foes,
-					$friends,
-					$foeAlliances,
-					$friendAlliances,
-					$level
+					mysql_real_escape_string($foes),
+					mysql_real_escape_string($friends),
+					mysql_real_escape_string($foeAlliances),
+					mysql_real_escape_string($friendAlliances),
+					mysql_real_escape_string($level)
 				);
 			return mysql_query($sql, $conn);
 		}
