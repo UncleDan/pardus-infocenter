@@ -337,6 +337,25 @@ function saveHack() {
 		var resourceTable = null;
 		var shipTable = null;
 
+		// fix the buildings table
+		switch (tables.length) {
+		case 3:
+		case 4:
+		case 5:
+			// tables[2] will be the buildings table
+			tables = fixBuildings(tables, 2);
+			break;
+		case 6:
+		case 7:
+		case 8:
+		case 9:
+		case 10: // many buildings possible
+			// tables[3] will be the buildings table
+			tables = fixBuildings(tables, 3);
+			break;
+		}
+
+		// classify which type of hack it is
 		switch (tables.length) {
 		case 2:
 			// either trade or brute
@@ -351,17 +370,11 @@ function saveHack() {
 			}
 			break;
 		case 4:
-			// tables[2] will be the buildings table
-			tables = fixBuildings(tables, 2);
-
 			hack.method = "skilled";
 			buildingTable = tables[2];
 			foeTable = tables[3];
 			break;
 		case 5:
-			// tables[2] will be the buildings table
-			tables = fixBuildings(tables, 2);
-
 			hack.method = "freak";
 			buildingTable = tables[2];
 			foeTable = tables[3].getElementsByTagName("table")[0];
@@ -373,9 +386,6 @@ function saveHack() {
 		case 8:
 		case 9:
 		case 10: // many buildings possible
-			// tables[3] will be the buildings table
-			tables = fixBuildings(tables, 3);
-
 			hack.method = "guru";
 			shipTable = tables[2];
 			buildingTable = tables[3];
@@ -427,6 +437,21 @@ function saveHack() {
 				transaction.amount = hackRow.cells[5].innerHTML;
 				transaction.average = hackRow.cells[6].innerHTML;
 				transaction.total = hackRow.cells[7].innerHTML;
+
+				// convert the img fields to be forced to be links to Pardus;
+				// this is for people who use local image packs
+				transaction.commodity = transaction.commodity.replace(
+					/src=".*\/([^\/]+)/,
+					'src="http://static.pardus.at/img/stdhq/res/$1'
+				);
+				transaction.average = transaction.average.replace(
+					/src=".*\/credits.png/,
+					'src="http://static.pardus.at/img/stdhq/credits.png'
+				);
+				transaction.total = transaction.total.replace(
+					/src=".*\/credits.png/,
+					'src="http://static.pardus.at/img/stdhq/credits.png'
+				);
 				hack.buildings.push(transaction);
 			}
 
