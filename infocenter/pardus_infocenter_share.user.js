@@ -130,12 +130,13 @@ function saveCombat() {
 	} else {
 		var delims = ["disengaged from battle with", "was defeated by", "defeated"];
 		var outcomes = ["disengaged", "was defeated by", "defeated"];
-		for (var i = 0; i < delims.length; i++)
+		for (var i = 0; i < delims.length; i++) {
 			if (str.indexOf(delims[i]) != -1) {
 				delim = delims[i];
 				cmbt.outcome = outcomes[i];
 				break;
 			}
+		}
 	}
 	values = str.split(delim);
 	cmbt.attacker = prepareName(values[0]);
@@ -527,11 +528,12 @@ function saveHack() {
 				posStr = posStr.substr(new String("Building in ").length);
 				var building = {};
 				prepareSector(building, posStr);
-				for (var j = 0; j < hack.building_positions.length; j++)
+				for (var j = 0; j < hack.building_positions.length; j++) {
 					if (building.sector == hack.building_positions[j].sector) {
 						building.cluster = hack.building_positions[j].cluster;
 						break;
 					}
+				}
 				building.commodities = prepareResources(buildingTables[i].rows[2].cells[0]);
 				building.stock = prepareResources(buildingTables[i].rows[2].cells[1]);
 				hack.buildings.push(building);
@@ -551,13 +553,15 @@ function saveHack() {
 			collection.value = true;
 			node.attributes.setNamedItem(collection);
 			var name = nodeName.substr(0, nodeName.length - 1);
-			for (var i = 0; i < obj.length; i++)
+			for (var i = 0; i < obj.length; i++) {
 				objectToXml(obj[i], name, node);
+			}
 		} else
 		if (typeof(obj) == "object") {
 			var i;
-			for (i in obj)
+			for (i in obj) {
 				objectToXml(obj[i], i, node);
+			}
 		} else
 			node.appendChild(node.ownerDocument.createTextNode(obj));
 		return parentNode;
@@ -737,80 +741,149 @@ function saveMissions() {
 		MISSION_TRANSPORT_VIP = "Transport VIP";
 		MISSION_CLEAN_WH = "Cleaning Wormhole Exit";
 
+		// extract source
 		var msgsTable = document.body.getElementsByTagName("table")[2];
 		var p = msgsTable.getElementsByTagName("p")[0];
 		var source = extractWord(p.innerHTML, "Return to ", "'s", true);
 
+		// initialize variables
 		var tables = msgsTable.getElementsByTagName("table");
 		var missions = [];
+		var when = new Date().getTime();
 
+		// initialize xml objects
 		var xml = document.implementation.createDocument("", "missions", null);
 		var xmlMissions = xml.documentElement;
 		var collection = xml.createAttribute("collection");
 		collection.value = true;
 		xmlMissions.attributes.setNamedItem(collection);
 
-		var when = new Date().getTime();
-		for (var i = 0; i < tables.length; i++) {
-			var msgTable = tables[i];
-			if (msgTable.getElementsByTagName("table").length == 0)
-				continue;
+		// normal mode
+		if (document.body.innerHTML.search("Switch to normal mode") == -1) {
+			for (var i = 0; i < tables.length; i++) {
+				var msgTable = tables[i];
+				if (msgTable.getElementsByTagName("table").length == 0)
+					continue;
 
-			var mission = {"source": source, "when": when};
+				var mission = {"source": source, "when": when};
 
-			mission.universe = universe.charAt(0).toUpperCase() + universe.substring(1);
+				mission.universe = universe.charAt(0).toUpperCase() + universe.substring(1);
 
-			var cell = msgTable.rows[0].cells[0];
-			var img = cell.getElementsByTagName("img")[0];
-			if (img) {
-				var factionType = extractWord(img.src, "sign_", "_16x16.png", false);
-				if (factionType == "eps" || factionType == "tss")
-					cell = msgTable.rows[0].cells[1];
-				mission.faction = factionType;
+				var cell = msgTable.rows[0].cells[0];
+				var img = cell.getElementsByTagName("img")[0];
+				if (img) {
+					var factionType = extractWord(img.src, "sign_", "_16x16.png", false);
+					if (factionType == "eps" || factionType == "tss")
+						cell = msgTable.rows[0].cells[1];
+					mission.faction = factionType;
+				}
+				mission.type = trim(cell.textContent);
+
+				if (mission.type == MISSION_ASSASSINATION) {
+					var imgSrc = msgTable.rows[1].getElementsByTagName("img")[0].src;
+					mission.opponent = imgSrc.substring(imgSrc.lastIndexOf("/") + 1, imgSrc.lastIndexOf("."));
+				}
+
+				var cellCount = msgTable.rows[2].cells.length;
+				if ((cellCount == 3) && (mission.type != MISSION_TRANSPORT_VIP)) {
+					mission.amount = extractFirstText(msgTable.rows[2].cells[0]);
+					if (mission.type == MISSION_VIP_ACTION_TRIP)
+						mission.amount = mission.amount.split(" ")[1];
+				}
+				cell = msgTable.rows[2].cells[cellCount - 1];
+				mission.pid = cell.getElementsByTagName("div")[0].id;
+				mission.pid = mission.pid.substr(1, mission.pid.length);
+
+				text = msgTable.rows[1].cells[2].innerHTML;
+
+				if (!(mission.type == MISSION_ASSASSINATION && mission.amount)) {
+					if (mission.type == MISSION_CLEAN_WH)
+						mission.sector = extractWord(text, "stuck in <B>", "</B>");
+					else
+						mission.sector = extractWord(text, "<B>", "</B> at the coordinates");
+					mission.coords = extractWord(text, "coordinates [<B>", "</B>", true);
+					if (mission.type != MISSION_ASSASSINATION && mission.type != MISSION_CLEAN_WH)
+						mission.destination = extractWord(text, "<B>", "</B> in sector");
+				}
+
+				mission.reward = extractWord(text, "<B>", "</B> credits").replace(",", "");
+				mission.deposit = extractWord(text, "completed: ", " credits", true).replace(",", "");
+				mission.timelimit = extractWord(text, "<B>", "</B> minutes");
+
+				missions.push(mission);
+
+				// append mission to XML
+				var xmlMission = xml.createElement("mission");
+				var j;
+				for (j in mission) {
+					var prop = xml.createElement(j);
+					prop.appendChild(xml.createTextNode(mission[j]));
+					xmlMission.appendChild(prop);
+				}
+				xmlMissions.appendChild(xmlMission);
 			}
-			mission.type = trim(cell.textContent);
 
-			if (mission.type == MISSION_ASSASSINATION) {
-				var imgSrc = msgTable.rows[1].getElementsByTagName("img")[0].src;
-				mission.opponent = imgSrc.substring(imgSrc.lastIndexOf("/") + 1, imgSrc.lastIndexOf("."));
+		// compact mode
+		} else {
+			var dataTable = document.getElementsByTagName("table")[6];
+			for (var i = 1; i < dataTable.rows.length; i++) {
+				var dataRow = dataTable.rows[i];
+				var mission = {"source": source, "when": when};
+
+				mission.universe = universe.charAt(0).toUpperCase() + universe.substring(1);
+
+				var cell = dataRow.cells[0];
+				var img = cell.getElementsByTagName("img")[0];
+				if (img) {
+					var factionType = extractWord(img.src, "sign_", "_16x16.png", false);
+					mission.faction = factionType;
+				}
+
+				cell = dataRow.cells[1];
+				mission.type = cell.getElementsByTagName("img")[0].alt;
+
+				if (mission.type == MISSION_ASSASSINATION) {
+					var imgSrc = dataRow.cells[1].getElementsByTagName("img")[0].src;
+					mission.opponent = imgSrc.substring(imgSrc.lastIndexOf("/") + 1, imgSrc.lastIndexOf("."));
+				}
+
+				if (mission.type != MISSION_TRANSPORT_VIP) {
+					mission.amount = extractFirstText(dataRow.cells[2]);
+					if (mission.amount == "-")
+						mission.amount = undefined;
+				}
+
+				mission.pid = dataRow.cells[9].getElementsByTagName("div")[0].id;
+				mission.pid = mission.pid.substr(1, mission.pid.length);
+
+				if (!(mission.type == MISSION_ASSASSINATION && mission.amount)) {
+					mission.sector = dataRow.cells[5].innerHTML;
+					mission.coords = dataRow.cells[6].innerHTML;
+					if (mission.type != MISSION_ASSASSINATION && mission.type != MISSION_CLEAN_WH) {
+						mission.destination = dataRow.cells[5].innerHTML;
+						if (mission.destination == "-")
+							mission.destination = undefined;
+					}
+				}
+
+				mission.reward = extractFirstText(dataRow.cells[7]);
+				mission.reward = mission.reward.replace(/[^0-9]/g, '');
+				mission.deposit = extractFirstText(dataRow.cells[8]);
+				mission.deposit = mission.deposit.replace(/[^0-9]/g, '');
+				mission.timelimit = dataRow.cells[3].innerHTML;
+
+				missions.push(mission);
+
+				// append mission to XML
+				var xmlMission = xml.createElement("mission");
+				var j;
+				for (j in mission) {
+					var prop = xml.createElement(j);
+					prop.appendChild(xml.createTextNode(mission[j]));
+					xmlMission.appendChild(prop);
+				}
+				xmlMissions.appendChild(xmlMission);
 			}
-
-			var cellCount = msgTable.rows[2].cells.length;
-			if ((cellCount == 3) && (mission.type != MISSION_TRANSPORT_VIP)) {
-				mission.amount = extractFirstText(msgTable.rows[2].cells[0]);
-				if (mission.type == MISSION_VIP_ACTION_TRIP)
-					mission.amount = mission.amount.split(" ")[1];
-			}
-			cell = msgTable.rows[2].cells[cellCount - 1];
-			mission.pid = cell.getElementsByTagName("div")[0].id;
-			mission.pid = mission.pid.substr(1, mission.pid.length);
-
-			text = msgTable.rows[1].cells[2].innerHTML;
-
-			if (!(mission.type == MISSION_ASSASSINATION && mission.amount)) {
-				if (mission.type == MISSION_CLEAN_WH)
-					mission.sector = extractWord(text, "stuck in <B>", "</B>");
-				else
-					mission.sector = extractWord(text, "<B>", "</B> at the coordinates");
-				mission.coords = extractWord(text, "coordinates [<B>", "</B>", true);
-				if (mission.type != MISSION_ASSASSINATION && mission.type != MISSION_CLEAN_WH)
-					mission.destination = extractWord(text, "<B>", "</B> in sector");
-			}
-
-			mission.reward = extractWord(text, "<B>", "</B> credits").replace(",", "");
-			mission.deposit = extractWord(text, "completed: ", " credits", true).replace(",", "");
-			mission.timelimit = extractWord(text, "<B>", "</B> minutes");
-
-			missions.push(mission);
-
-			var xmlMission = xml.createElement("mission");
-			var j;
-			for (j in mission) {
-				var prop = xml.createElement(j);
-				prop.appendChild(xml.createTextNode(mission[j]));
-				xmlMission.appendChild(prop);
-			}
-			xmlMissions.appendChild(xmlMission);
 		}
 
 		var form = document.createElement("form");
