@@ -28,6 +28,7 @@
 		"Alliance Fund",
 		"Bounty",
 		"Building Module",
+		"Elite Donation",
 		"Lobbying Fee",
 		"Military Outpost Toll",
 		"Shield Recharge",
