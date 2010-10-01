@@ -35,6 +35,7 @@
 		"Ship to Ship Trade",
 		"Squadron Hiring",
 		"Starbase Ownership Change",
+		"Starbase Subsidy",
 		"Starbase Tax",
 		"Wreck Scan"
 	);
