@@ -29,6 +29,7 @@
 		"Bounty",
 		"Building Module",
 		"Elite Donation",
+		"Equipment Production",
 		"Lobbying Fee",
 		"Military Outpost Toll",
 		"Shield Recharge",
