@@ -101,6 +101,24 @@ KNOWN BUGS/TO DO LIST
 
 VERSION HISTORY
 
+1.6.5 (2010-10-09)
+ - Fixed the 'easy' script to be more compatible with different configurations.
+1.6.4 (2010-09-18)
+ - Fixed a bug with hacks showing up wrong when no buildings were owned.
+ - Fixed a bug with trade log hacks when a user uses their own image pack.
+ - Added support for mission sharing with compact mode enabled on the bulletin board screen.
+1.6.3 (2010-09-11)
+ - Added support for trade log hacks to the userscript and backend.
+ - Added support for clearing missions since they overwhelm the system so easily (this is customizable in settings_mod.php). As requested by Evil Knight.
+ - Fixed security holes (SQL injection) in the XML fields being received by hack_add.php.
+1.6.2 (2010-09-08)
+ - Added support for Admins to delete hacks and combats.
+ - Fixed guru hack bug.
+ - Fixed a bug with the levels not being sorted correctly.
+ - Added the fix file for <IMG> to <IMG_NAME> XML names. This converts old data to new data.
+ - Cosmetic changes to the userscript and other files.
+1.6.001 (2010-07-19)
+ - fixed the DB_TABLE_PREFIX bug
 1.6 (2010-07-18)
  - Added security levels, ('Open', 'Confidential', 'Admin').
  - Added public access for viewing 'Open' submissions.
@@ -114,75 +132,75 @@ VERSION HISTORY
  - Fixed bug with hack level when no buildings are owned.
  - Reversed the effects of magic quotes if it is enabled, fixing extra slashes showing up everywhere.  Removed the "brute repairs" that people were doing since they thought it was a javascript bug.
 1.5b2.005 (2010-04-16)
-- revised "hack_add.php" (thanks Macbeth) *Uncledan*
+ - revised "hack_add.php" (thanks Macbeth) *Uncledan*
 1.5b2.004f (2010-03-07)
-- revised "mission_add.php" *Pio*
-- revised "pardus_infocenter_share.user.js" *Sobkou*
+ - revised "mission_add.php" *Pio*
+ - revised "pardus_infocenter_share.user.js" *Sobkou*
 1.5b2.004e (2010-03-05)
-- Revised "modules/mission_mod" to fix upload bug when variable DB_TABLE_PREFIX is used *Uncledan*
+ - Revised "modules/mission_mod" to fix upload bug when variable DB_TABLE_PREFIX is used *Uncledan*
 1.5b2.004d (2010-02-27)
-- Revised "modules/combat_mod.php" to avoid "Sombebody\'s Building" bug *Uncledan*
-- Revised "modules/account_mod", "modules/combat_mod.php", "modules/hack_mod.php", "modules/mission_mod" to use the predefined
-  variable DB_TABLE_PREFIX *Uncledan*
+ - Revised "modules/combat_mod.php" to avoid "Sombebody\'s Building" bug *Uncledan*
+ - Revised "modules/account_mod", "modules/combat_mod.php", "modules/hack_mod.php", "modules/mission_mod" to use the predefined
+   variable DB_TABLE_PREFIX *Uncledan*
 1.5b2.004b = 1.5b2.004c (2010-02-25)
-- Revised "main.php" header tag to copy exact Pardus docking page layout *Uncledan*
-- Revised "index.php", "combats.php", "combat_add.php", "combat_details.php", "hacks.php", "hack_add.php", "hack_details.php",
-  "missions.php", "mission_add.php" to reflect new enhanced permissions table *Uncledan*
-	0 = banned user
-	1 = can share ALL
-	2 = can view ALL
-	3 = can both share and view ALL
-	4 = can share only combats
-	5 = can view only combats
-	6 = can both share and view only combats
-	7 = can share only hacks
-	8 = can view only hacks
-	9 = can both share and only hacks
+ - Revised "main.php" header tag to copy exact Pardus docking page layout *Uncledan*
+ - Revised "index.php", "combats.php", "combat_add.php", "combat_details.php", "hacks.php", "hack_add.php", "hack_details.php",
+   "missions.php", "mission_add.php" to reflect new enhanced permissions table *Uncledan*
+     0 = banned user
+     1 = can share ALL
+     2 = can view ALL
+     3 = can both share and view ALL
+     4 = can share only combats
+     5 = can view only combats
+     6 = can both share and view only combats
+     7 = can share only hacks
+     8 = can view only hacks
+     9 = can both share and only hacks
 1.5b2.004a (2010-02-24)
-- Revised "index.php" to add Universe icon near username and to display in red higher permission level user (=3) *Uncledan*
-- Revised "modules/security_mod.php" to enable not encrypted passwords (compatibility with 1.5b2 versions) *Uncledan*
-- Deleted "downloads.php" as useless with the single "GM Script" *Uncledan*
-- Changed "dock.php" to "main.php" and made it default page after logging in
-	- Added variables in "/modules/settings_mod.php" for ease of setup *Uncledan*
-- Fixed "missions.php" and "npc_images.php" to reflect new image pack (wormhole
-is a PNG and no more a GIF in HQ pack) *Uncledan*
+ - Revised "index.php" to add Universe icon near username and to display in red higher permission level user (=3) *Uncledan*
+ - Revised "modules/security_mod.php" to enable not encrypted passwords (compatibility with 1.5b2 versions) *Uncledan*
+ - Deleted "downloads.php" as useless with the single "GM Script" *Uncledan*
+ - Changed "dock.php" to "main.php" and made it default page after logging in
+ - Added variables in "/modules/settings_mod.php" for ease of setup *Uncledan*
+ - Fixed "missions.php" and "npc_images.php" to reflect new image pack (wormhole
+   is a PNG and no more a GIF in HQ pack) *Uncledan*
 1.5b2.004 (2010-02-15)
-- Incorporated a single "GM Script" that can share all (Courtesy of Uncledan)
-- Deleted "downloads.php" as useless with the single "GM Script" *Uncledan*
-- Changed "dock.php" to "main.php" and made it default page after logging in
-	- Added variables in "/modules/settings_mod.php" for ease of setup *Uncledan*
-- Edited "index.php" to reflect above change and to add a logout button.
-- Revised "modules/missions_mod.php"
-	- Added code to allow sorting by "Source" of mission and 	"Destination" (sector)
-- Revised "missions.php"
-	- Added code to allow sorting by "Source" of mission and 	"Destination" (Sector)
-- Fixed "missions.php" and "npc_images.php" to reflect new image pack (wormhole is a PNG and no more a GIF in HQ pack) *Uncledan*
-- Revised the "/modules/settings_mod.php"
-	- Added comments for easier setup
-	- Set new "HQ" image pack as default
-- Added default "Artemis Logs"
-- Revised the "readme.txt" and created a formatted PDF/Word document.
+ - Incorporated a single "GM Script" that can share all (Courtesy of Uncledan)
+ - Deleted "downloads.php" as useless with the single "GM Script" *Uncledan*
+ - Changed "dock.php" to "main.php" and made it default page after logging in
+ - Added variables in "/modules/settings_mod.php" for ease of setup *Uncledan*
+ - Edited "index.php" to reflect above change and to add a logout button.
+ - Revised "modules/missions_mod.php"
+ - Added code to allow sorting by "Source" of mission and 	"Destination" (sector)
+ - Revised "missions.php"
+ - Added code to allow sorting by "Source" of mission and 	"Destination" (Sector)
+ - Fixed "missions.php" and "npc_images.php" to reflect new image pack (wormhole is a PNG and no more a GIF in HQ pack) *Uncledan*
+ - Revised the "/modules/settings_mod.php"
+ - Added comments for easier setup
+ - Set new "HQ" image pack as default
+ - Added default "Artemis Logs"
+ - Revised the "readme.txt" and created a formatted PDF/Word document.
 1.5b2.003 (2009-08-20)
-- code cleanup from my (Pardus) messy updates
-- added variable to choose starting page (and logout type)
-- added variable for future use as table prefix in database
+ - code cleanup from my (Pardus) messy updates
+ - added variable to choose starting page (and logout type)
+ - added variable for future use as table prefix in database
 1.5b2.002 (2009-08-10)
-- fixed other missing titles in pages
-- added some variables in settings_mod.php for an easier customization
-- added feature to enable/disable combat/hack/mission share (variables in settings_mod.php)
+ - fixed other missing titles in pages
+ - added some variables in settings_mod.php for an easier customization
+ - added feature to enable/disable combat/hack/mission share (variables in settings_mod.php)
 1.5b2.001 (2009-05-31)
-- fixed missing title tag in login screen
-- password are now stored in MD5 and not in plaint text (password control changed in the login)
-- added a download page for GMscripts
-- added feature for hackers not to send their position to the db
-- added a permissions feature for the users (0=disabled, 1=can only share logs, 2=can only view logs, 3=can both share and read logs, 4=reserved for future admin features)
+ - fixed missing title tag in login screen
+ - password are now stored in MD5 and not in plaint text (password control changed in the login)
+ - added a download page for GMscripts
+ - added feature for hackers not to send their position to the db
+ - added a permissions feature for the users (0=disabled, 1=can only share logs, 2=can only view logs, 3=can both share and read logs, 4=reserved for future admin features)
 1.5b2 (2009-04-16)
-- fixed share_hack.user.js to work with new hack page html wich was updated by Pardus developers recently
-- fixed bug (file npc_images.php) occuring on some php hosts causing combat details are not displayed
+ - fixed share_hack.user.js to work with new hack page html wich was updated by Pardus developers recently
+ - fixed bug (file npc_images.php) occuring on some php hosts causing combat details are not displayed
 1.5b1 (2008-01-06)
-- removed most if not all php notices in server error log
-- fixed bug: sometimes last page for hack or combat list is empty
-- number of rounds for PvB combat log now shows total amount of rounds player was attacked by building modules
-- improved page navigator
-- ! implemented share missions feature (except TSS and war missions)
+ - removed most if not all php notices in server error log
+ - fixed bug: sometimes last page for hack or combat list is empty
+ - number of rounds for PvB combat log now shows total amount of rounds player was attacked by building modules
+ - improved page navigator
+ - ! implemented share missions feature (except TSS and war missions)
 
