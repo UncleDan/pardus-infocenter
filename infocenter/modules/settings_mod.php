@@ -5,7 +5,7 @@
 
 		//Script Info
 		const SCRIPT_NAME = "Pardus Infocenter"; //please don't change that if you don't really need it
-		const SCRIPT_VERSION = "1.6.4"; //please don't change that if you don't really need it
+		const SCRIPT_VERSION = "1.6.5"; //please don't change that if you don't really need it
 
 		//DB settings
 		const DB_SERVER_ADDRESS = "localhost"; //Best left this unless otherwise specified
