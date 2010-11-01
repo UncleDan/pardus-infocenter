@@ -28,6 +28,8 @@
 		"Alliance Fund",
 		"Bounty",
 		"Building Module",
+		"Crew Payment",
+		"Crew Signup Fee",
 		"Elite Donation",
 		"Equipment Production",
 		"Lobbying Fee",
