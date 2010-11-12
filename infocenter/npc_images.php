@@ -11,6 +11,7 @@ cyborg_manta.png
 dreadscorp.png
 drosera.png
 energybees.png
+energy_locust.png
 energy_minnow.png
 energy_sparker.png
 eulerian.png
@@ -26,6 +27,7 @@ gorefanglings.png
 hidden_drug_stash.png
 ice_beast.png
 infected_creature.png
+locust_hive.png
 lucidi_mothership.png
 lucidi_squad.png
 lucidi_warship.png
@@ -35,6 +37,7 @@ manifestation_verdant.png
 medusa.png
 medusa_swarmlings.png
 mutated_medusa.png
+nebula_locust.png
 nebula_mole.png
 nebula_serpent.png
 oblivion_vortex.png
@@ -56,6 +59,7 @@ space_crystal.png
 space_dragon_elder.png
 space_dragon_queen.png
 space_dragon_young.png
+space_locust.png
 space_maggot.png
 space_maggot_mutated.png
 space_snail.png
