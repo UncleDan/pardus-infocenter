@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name				Pardus Infocenter Share 1.6
+// @name				Pardus Infocenter Share 1.6.5
 // @author			Originally by Pio (Orion), updated by Uncledan (Orion)/Larry Legend (Artemis) - Taurvi (Artemis)/Sobkou (Orion) - Aeiri	(Artemis).
 // @namespace		pardus.at
-// @description		Enables to share combat/hack/payment logs and missions bullettin board. For use with Pardus Infocenter v1.6+
+// @description		Enables to share combat/hack/payment logs and missions bullettin board. For use with Pardus Infocenter v1.6.5+
 // @include http://*.pardus.at/combat_details.php*
 // @include http://*.pardus.at/hack.php*
 // @include http://*.pardus.at/bulletin_board.php*
