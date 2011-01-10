@@ -23,6 +23,27 @@
 			}
 		}
 
+		public static function checkLoginFromScript() {
+			$name = v($_REQUEST, "acc");
+			$password = v($_REQUEST, "pwd");
+			if (!isset($name) || !isset($password)) {
+				return null;
+			}
+			$acc = AccountMod::getAccount($name);
+			if (SettingsMod::ENCRYPT_USERSCRIPT_PASSWORD) {
+				if (is_null($acc) || $acc->getPassword() != $password) {
+					echo("\"".$password."\" vs \"".$acc->getPassword()."\" *** "); //DEBUG
+					return null;
+				} else
+					return $acc;
+			} else {
+				if (is_null($acc) || $acc->getPassword() != md5($password)) {
+					return null;
+				} else
+					return $acc;
+			}
+		}
+
 		public static function login() {
 			session_name(SettingsMod::SESSION_NAME);
 			session_start();

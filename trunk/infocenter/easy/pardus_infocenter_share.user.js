@@ -40,7 +40,11 @@ if (!isset($_SERVER['PHP_AUTH_USER'])) {
 		"<UNIVERSE>", strtolower($acc->getUniverse()), $contents
 	);
 	$contents = str_replace("<USERNAME>", $_SERVER['PHP_AUTH_USER'], $contents);
-	$contents = str_replace("<PASSWORD>", $_SERVER['PHP_AUTH_PW'], $contents);
+	if (SettingsMod::ENCRYPT_USERSCRIPT_PASSWORD) {
+		$contents = str_replace("<PASSWORD>", md5($_SERVER['PHP_AUTH_PW']), $contents);
+	} else {
+		$contents = str_replace("<PASSWORD>", $_SERVER['PHP_AUTH_PW'], $contents);
+	}
 	echo $contents;
 }
 
