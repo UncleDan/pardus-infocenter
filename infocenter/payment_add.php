@@ -2,7 +2,7 @@
 	require_once("global.php");
 	require_once("modules/security_mod.php");
 	require_once("modules/payment_mod.php");
-	$acc = SecurityMod::checkLogin();
+	$acc = SecurityMod::checkLoginFromScript();
 	if (is_null($acc)) {
 		echo("Invalid credentials");
 		exit;

@@ -45,7 +45,10 @@ INSERT INTO `account` (`id`, `universe`, `name`, `password`, `permissions`, `lev
 (3, 'Pegasus', 'Pegasus-Admin', '986d76480b0b202c14f23ffd3b977f68', 0, 'Admin'),
 (4, 'Orion', 'Orion-Public', '4c9184f37cff01bcdc32dc486ec36961', 715827882, 'Open'),
 (5, 'Artemis', 'Artemis-Public', '4c9184f37cff01bcdc32dc486ec36961', 715827882, 'Open'),
-(6, 'Pegasus', 'Pegasus-Public', '4c9184f37cff01bcdc32dc486ec36961', 715827882, 'Open');
+(6, 'Pegasus', 'Pegasus-Public', '4c9184f37cff01bcdc32dc486ec36961', 715827882, 'Open'),
+(7, 'Orion', 'Orion-Send', '986d76480b0b202c14f23ffd3b977f68', 341, 'Open'),
+(8, 'Artemis', 'Artemis-Send', '986d76480b0b202c14f23ffd3b977f68', 341, 'Open'),
+(9, 'Pegasus', 'Pegasus-Send', '986d76480b0b202c14f23ffd3b977f68', 341, 'Open');
 
 -- --------------------------------------------------------
 

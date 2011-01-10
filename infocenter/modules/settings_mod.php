@@ -5,7 +5,7 @@
 
 		//Script Info
 		const SCRIPT_NAME = "Pardus Infocenter"; //please don't change that if you don't really need it
-		const SCRIPT_VERSION = "1.6.5"; //please don't change that if you don't really need it
+		const SCRIPT_VERSION = "1.6.6"; //please don't change that if you don't really need it
 
 		//DB settings
 		const DB_SERVER_ADDRESS = "localhost"; //Best left this unless otherwise specified
@@ -15,8 +15,11 @@
 
 		//Userscript Settings
 		const EASY_INSTALL = true;
-		const EASY_NAME = "PardusInfocenter"; //the name you want to be displayed in the combo box
+		const EASY_NAME = "Pardus Infocenter"; //the name you want to be displayed in the combo box
 		const EASY_URL = "http://mysite/infocenter"; //the exact url to your Infocenter, no trailing slashes
+		const ENCRYPT_USERSCRIPT_PASSWORD = true; // if set to "true" you will only see md5 checksum instead of password in the Userscript
+		const FORCE_USERSCRIPT_DOWNLOAD = false; // workaround if you experience problem with .htaccess.
+												// You *MUST* activate ENCRYPT_USERSCRIPT_PASSWORD to use this.
 
 		//Session Settings
 		const SESSION_NAME = "pardus_infocenter";

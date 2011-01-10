@@ -1,12 +1,20 @@
 // ==UserScript==
-// @name				Pardus Infocenter Share 1.6.5
-// @author			Originally by Pio (Orion), updated by Uncledan (Orion)/Larry Legend (Artemis) - Taurvi (Artemis)/Sobkou (Orion) - Aeiri	(Artemis).
-// @namespace		pardus.at
-// @description		Enables to share combat/hack/payment logs and missions bullettin board. For use with Pardus Infocenter v1.6.5+
+// @name		Pardus Infocenter Share
+// @namespace	http://code.google.com/p/pardus-infocenter/
+// @description	Enables to share combat/hack/payment logs and missions bullettin board with Pardus Infocenter [ http://code.google.com/p/pardus-infocenter/ ]
 // @include http://*.pardus.at/combat_details.php*
 // @include http://*.pardus.at/hack.php*
 // @include http://*.pardus.at/bulletin_board.php*
 // @include http://*.pardus.at/overview_payment_log.php*
+// @match http://*.pardus.at/combat_details.php*
+// @match http://*.pardus.at/hack.php*
+// @match http://*.pardus.at/bulletin_board.php*
+// @match http://*.pardus.at/overview_payment_log.php*
+// @author	Pio -Orion- siur2@yahoo.com
+// @author	Uncledan -Orion- / Larry Legend -Artemis- uncledan@uncledan.it
+// @author	Taurvi -Artemis- / Sobkou -Orion- sobkou.pardus@gmail.com
+// @author	Aeiri -Artemis- brad@bcable.net
+// @version	1.6.6
 // ==/UserScript==
 
 // ASCII art made with Doom font at http://patorjk.com/software/taag/
@@ -25,6 +33,8 @@ var enableHackShare     = true;
 var hideHackerLocation  = false; //if set to *true* the hacker location won't be shown
 var enableMissionsShare = true;
 var enablePaymentShare  = true;
+
+var showDebug = false; //if set to *true* debug messages are shown
 
 //  _____
 // /  ___|
@@ -149,7 +159,8 @@ function saveCombat() {
 	if (form)
 		document.body.removeChild(form);
 	form = document.createElement("form");
-	form.style.display = "none";
+	if (!showDebug)
+		form.style.display = "none";
 	form.action = server.url + "/combat_add.php";
 	form.method = "post";
 	form.target = "combatFrame";
@@ -174,7 +185,8 @@ function saveCombat() {
 		frame = document.createElement("iframe");
 		frame.name = "combatFrame";
 		frame.id = frame.name;
-		frame.style.display = "none";
+		if (!showDebug)
+			frame.style.display = "none";
 		document.body.appendChild(frame);
 	}
 	form.submit();
@@ -611,7 +623,8 @@ function saveHack() {
 			frame = document.createElement("iframe");
 			frame.name = "hackFrame";
 			frame.id = frame.name;
-			frame.style.display = "none";
+			if (!showDebug)
+				frame.style.display = "none";
 			document.body.appendChild(frame);
 		}
 		var form = document.getElementById("hackPost");
@@ -622,7 +635,8 @@ function saveHack() {
 		form.action = server.url + "/hack_add.php";
 		form.target = "hackFrame";
 		form.id = "hackPost";
-		form.style.display = "none";
+		if (!showDebug)
+			form.style.display = "none";
 		appendFormElement(form, "textarea", null, "data", data);
 		appendFormElement(form, "input", "text", "acc", account.name);
 		appendFormElement(form, "input", "text", "pwd", account.password);
@@ -913,7 +927,8 @@ function saveMissions() {
 		form.action = server.url + "/missions_add.php";
 		form.method = "post";
 		form.target = "missionsAdd";
-		form.style.display = "none";
+		if (!showDebug)
+			form.style.display = "none";
 		var data = new XMLSerializer().serializeToString(xml);
 		appendFormElement(form, "textarea", null, "missions", data);
 		appendFormElement(form, "input", "text", "acc", account.name);
@@ -921,7 +936,8 @@ function saveMissions() {
 		document.body.appendChild(form);
 		frame = document.createElement("iframe");
 		frame.name = "missionsAdd";
-		frame.style.display = "none";
+		if (!showDebug)
+			frame.style.display = "none";
 		document.body.appendChild(frame);
 		form.submit();
 
@@ -1024,7 +1040,8 @@ function savePayments() {
 				var receiver = (tds[5].innerHTML == "received" ? 1 : 0);
 				var credits = stripHTML(tds[6].innerHTML).replace(/[^0-9]/g, '');
 				form = document.createElement("form");
-				form.style.display = "none";
+				if (!showDebug)
+					form.style.display = "none";
 				form.action = server.url + "/payment_add.php";
 				form.method = "post";
 				form.target = "paymentsAdd";
@@ -1040,7 +1057,8 @@ function savePayments() {
 				document.body.appendChild(form);
 				frame = document.createElement("iframe");
 				frame.name = "paymentsAdd";
-				frame.style.display = "none";
+				if (!showDebug)
+					frame.style.display = "none";
 				document.body.appendChild(frame);
 				form.submit();
 			}

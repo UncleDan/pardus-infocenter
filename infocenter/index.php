@@ -55,7 +55,11 @@
 			$permissions->has(Permissions::ADD_PAYMENTS)
 		){
 			if (SettingsMod::EASY_INSTALL) {
-				echo('			<a href="easy/pardus_infocenter_share.user.js" target="_blank">GM Script</a> | '."\n");
+				if (SettingsMod::FORCE_USERSCRIPT_DOWNLOAD) {
+					echo('			<a href="pardus_infocenter_share.user.php" target="_blank">GM Script</a> | '."\n");
+				} else {
+					echo('			<a href="easy/pardus_infocenter_share.user.js" target="_blank">GM Script</a> | '."\n");
+				}
 			} else {
 				echo('			<a href="pardus_infocenter_share.user.js" target="_blank">GM Script</a> | '."\n");
 			}

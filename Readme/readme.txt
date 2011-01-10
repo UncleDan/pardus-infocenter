@@ -74,7 +74,7 @@ ORIGINAL MAINTAINER
 		Pio 		-Orion-		siur2@yahoo.com
 CURRENT MAINTAINER
 		Uncledan		-Orion-		uncledan@uncledan.it
-		Larry Legend	-Artemis-	larrylegend@live.it
+		Larry Legend	-Artemis-	uncledan@uncledan.it
 FROM VERSION 1.5b2.004
 		Sobkou	-Orion-		sobkou.pardus@gmail.com
 		Taurvi	-Artemis-	sobkou.pardus@gmail.com
@@ -97,10 +97,19 @@ KNOWN BUGS/TO DO LIST
 - Resources images not uploaded (or displayed?) in freak/guru hacks [Uncledan]
 - More search criteria. At least in the version I'm looking at, there are only filters on type, outcome, ambush or not, and opponent. I'd like to see the ability to filter on location, ship, guns and/or missiles, number of rounds, etc. The more the merrier! [Killer]
 - Sort order by clicking on the heading [Killer]
+- Possibility of deleting single/multiple payments [Uncledan]
 - Possibly more
 
 VERSION HISTORY
 
+1.6.6 (2011-01-10)
+- Added some payments types
+- Added the locust NPC family to npc_images.php
+- UserScript header cleanup, fix to be more compatible with Google Chrome and added showDebug variable management
+- Added support for encrypted password in UserScript (improved security)
+- Revised "combat_add.php", "hack_add.php", "missions_add.php", "payment_add.php" to enable enctypted passwords in UserScript
+- Revised "easy/pardus_infocenter_share.user.js" to enable enctypted passwords in UserScript
+- Added "pardus_infocenter_share.user.php" and FORCE_USERSCRIPT_DOWNLOAD variable to force download UserScript where server fails to recognize .htaccess directive
 1.6.5 (2010-10-09)
  - Fixed the 'easy' script to be more compatible with different configurations.
 1.6.4 (2010-09-18)
