@@ -13,7 +13,7 @@
 // @author	Pio -Orion- siur2@yahoo.com
 // @author	Uncledan -Orion- / Larry Legend -Artemis- uncledan@uncledan.it
 // @author	Taurvi -Artemis- / Sobkou -Orion- sobkou.pardus@gmail.com
-// @author	Aeiri -Artemis- / Jetix -Orion brad@bcable.net
+// @author	Aeiri -Artemis- / Jetix -Orion- brad@bcable.net
 // @version	1.6.6
 // ==/UserScript==
 
