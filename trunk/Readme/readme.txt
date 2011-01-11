@@ -80,6 +80,7 @@ FROM VERSION 1.5b2.004
 		Taurvi	-Artemis-	sobkou.pardus@gmail.com
 FROM VERSION 1.6
 		Aeiri	-Artemis-	brad@bcable.net
+		Jetix	-Orion-	brad@bcable.net
 IMAGES
 All images are Copyright (c) 2003-2010 Bayer & Szell OG. All Rights Reserved.
 
