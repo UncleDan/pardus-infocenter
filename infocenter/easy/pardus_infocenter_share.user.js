@@ -27,6 +27,7 @@ if (!isset($_SERVER['PHP_AUTH_USER'])) {
 	header("Expires: 0");
 	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 
+	header("Content-Type: application/javascript");
 	header("Content-Description: File Transfer");
 
 	$contents = file_get_contents("pardus_infocenter_share.data.js");
