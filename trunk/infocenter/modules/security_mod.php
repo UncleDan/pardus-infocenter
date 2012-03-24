@@ -32,7 +32,7 @@
 			$acc = AccountMod::getAccount($name);
 			if (SettingsMod::ENCRYPT_USERSCRIPT_PASSWORD) {
 				if (is_null($acc) || $acc->getPassword() != $password) {
-					echo("\"".$password."\" vs \"".$acc->getPassword()."\" *** "); //DEBUG
+					// echo("\"".$password."\" vs \"".$acc->getPassword()."\" *** "); //Unquote this line *ONLY* for debug: potential *SECURITY ISSUE*
 					return null;
 				} else
 					return $acc;

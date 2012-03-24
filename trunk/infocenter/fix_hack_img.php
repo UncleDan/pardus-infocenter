@@ -13,7 +13,7 @@
 			}
 
 			foreach ($hacks as $id => $hack) {
-				$buildings_new = str_replace("IMG>", "IMG_NAME>", $hack["buildings"]);
+				$buildings_new = str_ireplace("IMG>", "IMG_NAME>", $hack["buildings"]);
 				mysql_query(sprintf(
 					"update ".SettingsMod::DB_TABLE_PREFIX."hack set buildings = '%s' where id = %d",
 					mysql_real_escape_string($buildings_new),
