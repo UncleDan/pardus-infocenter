@@ -104,6 +104,12 @@ KNOWN BUGS/TO DO LIST
 
 VERSION HISTORY
 
+1.6.10 (2012-03-24)
+- fix_hack_img.php fix by Jivemaster http://forum.pardus.at/index.php?showtopic=57706&view=findpost&p=1167819
+- accounts.php fix by Jivemaster http://forum.pardus.at/index.php?showtopic=57706&view=findpost&p=1167819
+- quoted line 35 in security_mod-php (debug line)
+- fix to javascript for "raided" outcome by Jivemaster http://forum.pardus.at/index.php?showtopic=57706&st=0&#
+
 1.6.9 (2012-03-11)
 - Turnover fix by Wes http://forum.pardus.at/index.php?showtopic=35120&view=findpost&p=1165199
 - Combats fix for raid and more by Spoilerhead http://code.google.com/p/pardus-infocenter/issues/detail?id=20#c1

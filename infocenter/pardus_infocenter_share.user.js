@@ -138,8 +138,8 @@ function saveCombat() {
 		delim = /<font.+font>/i;
 		cmbt.outcome = extractStr(str, ">", "<");
 	} else {
-		var delims = ["disengaged from battle with", "was defeated by", "defeated"];
-		var outcomes = ["disengaged", "was defeated by", "defeated"];
+		var delims = ["disengaged from battle with", "was defeated by", "defeated", "raided"];
+		var outcomes = ["disengaged", "was defeated by", "defeated", "raided"];
 		for (var i = 0; i < delims.length; i++) {
 			if (str.indexOf(delims[i]) != -1) {
 				delim = delims[i];

@@ -94,6 +94,7 @@
 			<tr>
 				<td colspan="99"><?php drawNavigator()?></td>
 			</tr>
+			</table>
 		</td>
 	</tr>
 	</table>
