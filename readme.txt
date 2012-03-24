@@ -104,9 +104,6 @@ KNOWN BUGS/TO DO LIST
 
 VERSION HISTORY
 
-1.6.9 (2012-03-11)
-- Turnover fix by Wes http://forum.pardus.at/index.php?showtopic=35120&view=findpost&p=1165199
-- Combats fix for raid and more by Spoilerhead http://code.google.com/p/pardus-infocenter/issues/detail?id=20#c1
 1.6.8 (2012-02-26)
 - Added fixes for damage view by Bsg http://forum.pardus.at/index.php?showtopic=35120&st=285# (Thanks!!)
 - Moved version informetions to "modules/version_mod.php" to make upgrade esasier

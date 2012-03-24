@@ -14,7 +14,7 @@
 // @author	Uncledan -Orion- / Larry Legend -Artemis- uncledan@uncledan.it
 // @author	Taurvi -Artemis- / Sobkou -Orion- sobkou.pardus@gmail.com
 // @author	Aeiri -Artemis- / Jetix -Orion- brad@bcable.net
-// @version	1.6.9
+// @version	1.6.8
 // ==/UserScript==
 
 // ASCII art made with Doom font at http://patorjk.com/software/taag/
@@ -350,7 +350,6 @@ function saveHack() {
 		var friendTable = null;
 		var resourceTable = null;
 		var shipTable = null;
-		var turnoverOffset = 0;
 
 		// fix the buildings table
 		switch (tables.length) {
@@ -395,7 +394,6 @@ function saveHack() {
 			foeTable = tables[3].getElementsByTagName("table")[0];
 			friendTable = tables[3].getElementsByTagName("table")[1];
 			resourceTable = tables[4];
-			turnoverOffset = 2;
 			break;
 		case 6:
 		case 7:
@@ -408,7 +406,6 @@ function saveHack() {
 			foeTable = tables[4].getElementsByTagName("table")[0];
 			friendTable = tables[4].getElementsByTagName("table")[1];
 			resourceTable = tables[5];
-			turnoverOffset = 2;
 			break;
 		default:
 			return false;
@@ -481,9 +478,9 @@ function saveHack() {
 			hack.reputation = pilotTable.rows[3].cells[1].innerHTML.replace(/,/g, "");
 			hack.building_amount = pilotTable.rows[3].cells[2].innerHTML;
 			if (pilotTable.rows.length >= 6)
-				hack.experience = pilotTable.rows[5 + turnoverOffset].cells[0].innerHTML.replace(/,/g, "");
+				hack.experience = pilotTable.rows[5].cells[0].innerHTML.replace(/,/g, "");
 			if (pilotTable.rows.length >= 8)
-				hack.position = getPosition(pilotTable.rows[7 + turnoverOffset].cells[0]);
+				hack.position = getPosition(pilotTable.rows[7].cells[0]);
 		}
 
 
