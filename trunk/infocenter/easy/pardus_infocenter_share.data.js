@@ -14,7 +14,7 @@
 // @author	Uncledan -Orion- / Larry Legend -Artemis- uncledan@uncledan.it
 // @author	Taurvi -Artemis- / Sobkou -Orion- sobkou.pardus@gmail.com
 // @author	Aeiri -Artemis- / Jetix -Orion- brad@bcable.net
-// @version	1.6.9
+// @version	1.6.11
 // ==/UserScript==
 
 // ASCII art made with Doom font at http://patorjk.com/software/taag/

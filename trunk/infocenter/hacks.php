@@ -118,20 +118,20 @@
 				$i++;
 			?>
 			<tr bgcolor='#0B0B2F' onMouseOver='chOn(this)' onMouseOut='chOut(this)' onClick='chClick(this)'>
-				<td align='right' style='cursor:crosshair' onClick='hackDetails(<?php echo($hack["id"])?>)'>
+				<td align='right' nowrap='nowrap' style='cursor:crosshair' onClick='hackDetails(<?php echo($hack["id"])?>)'>
 					<?php echo(($pageNumber - 1) * SettingsMod::PAGE_RECORDS_PER_PAGE + $i)?>.
 				</td>
-				<td style='cursor:crosshair' onClick='hackDetails(<?php echo($hack["id"])?>)'>
+				<td nowrap='nowrap' style='cursor:crosshair' onClick='hackDetails(<?php echo($hack["id"])?>)'>
 					<script language="javascript">document.write(formatDate(<?php echo(strtotime($hack["date"]) * 1000)?>))</script>
 				</td>
-				<td align='center' style='cursor:crosshair' onClick='hackDetails(<?php echo($hack["id"])?>)'><?php echo($hack["universe"])?></td>
-				<td align='center' style='cursor:crosshair' onClick='hackDetails(<?php echo($hack["id"])?>)'><?php printf("%s %s", v($hack, "sector"), v($hack, "coords"))?></td>
-				<td align='center' style='cursor:crosshair' onClick='hackDetails(<?php echo($hack["id"])?>)'><?php echo($hack["pilot"])?></td>
-				<td align='center' style='cursor:crosshair' onClick='hackDetails(<?php echo($hack["id"])?>)'><?php echo($hack["method"])?></td>
+				<td align='center' nowrap='nowrap' style='cursor:crosshair' onClick='hackDetails(<?php echo($hack["id"])?>)'><?php echo($hack["universe"])?></td>
+				<td align='center' nowrap='nowrap' style='cursor:crosshair' onClick='hackDetails(<?php echo($hack["id"])?>)'><?php printf("%s %s", v($hack, "sector"), v($hack, "coords"))?></td>
+				<td align='center' nowrap='nowrap' style='cursor:crosshair' onClick='hackDetails(<?php echo($hack["id"])?>)'><?php echo($hack["pilot"])?></td>
+				<td align='center' nowrap='nowrap' style='cursor:crosshair' onClick='hackDetails(<?php echo($hack["id"])?>)'><?php echo($hack["method"])?></td>
 				<?php if (SettingsMod::ENABLE_COMMENTS && $permissions->has(Permissions::VIEW_COMMENTS)): ?>
-				<td align='center' style='cursor:crosshair' onClick='hackDetails(<?php echo($hack["id"])?>)'><?php echo(CommentMod::getCommentCount('hack', $hack["id"]))?></td>
+				<td align='center' nowrap='nowrap' style='cursor:crosshair' onClick='hackDetails(<?php echo($hack["id"])?>)'><?php echo(CommentMod::getCommentCount('hack', $hack["id"]))?></td>
 				<?php endif; ?>
-				<td align='center' style='cursor:crosshair' onClick='hackDetails(<?php echo($hack["id"])?>)'><?php echo($hack["level"])?></td>
+				<td align='center' nowrap='nowrap' style='cursor:crosshair' onClick='hackDetails(<?php echo($hack["id"])?>)'><?php echo($hack["level"])?></td>
 			</tr>
 			<?php endforeach; ?>
 			<tr>
