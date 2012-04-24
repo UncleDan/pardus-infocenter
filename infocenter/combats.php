@@ -262,16 +262,16 @@ function getCombatPreview(i) {
 				$i++;
 			?>
 			<tr bgcolor='#0b0b2f' onMouseOver='chOn(this)' onMouseOut='chOut(this)' onClick='chClick(this)'>
-				<td align='right' style='cursor:crosshair' onClick='combatDetails(<?php echo($cmbt->getId())?>)'>
+				<td align='right' nowrap='nowrap' style='cursor:crosshair' onClick='combatDetails(<?php echo($cmbt->getId())?>)'>
 					<?php echo(($pageNumber - 1) * SettingsMod::PAGE_RECORDS_PER_PAGE + $i)?>.
 				</td>
-				<td style='cursor:crosshair' onClick='combatDetails(<?php echo($cmbt->getId())?>)'>
+				<td nowrap='nowrap' style='cursor:crosshair' onClick='combatDetails(<?php echo($cmbt->getId())?>)'>
 					<script language="javascript">document.write(formatDate(<?php echo(strtotime($cmbt->getWhen()) * 1000)?>))</script>
 				</td>
-				<td align='center' style='cursor:crosshair' onClick='combatDetails(<?php echo($cmbt->getId())?>)'><?php echo($cmbt->getUniverse())?></td>
-				<td align='center' style='cursor:crosshair' onClick='combatDetails(<?php echo($cmbt->getId())?>)'><?php echo($cmbt->getSector() . " [" . $cmbt->getCoords() . "]")?></td>
-				<td align='center' style='cursor:crosshair' onClick='combatDetails(<?php echo($cmbt->getId())?>)'><?php echo($cmbt->getType())?></td>
-				<td align='center' style='cursor:crosshair' onClick='combatDetails(<?php echo($cmbt->getId())?>)'>
+				<td align='center' nowrap='nowrap' style='cursor:crosshair' onClick='combatDetails(<?php echo($cmbt->getId())?>)'><?php echo($cmbt->getUniverse())?></td>
+				<td align='center' nowrap='nowrap' style='cursor:crosshair' onClick='combatDetails(<?php echo($cmbt->getId())?>)'><?php echo($cmbt->getSector() . " [" . $cmbt->getCoords() . "]")?></td>
+				<td align='center' nowrap='nowrap' style='cursor:crosshair' onClick='combatDetails(<?php echo($cmbt->getId())?>)'><?php echo($cmbt->getType())?></td>
+				<td align='center' nowrap='nowrap' style='cursor:crosshair' onClick='combatDetails(<?php echo($cmbt->getId())?>)'>
 					<?php echo($cmbt->getRounds())?>
 					<?php if ($cmbt->getType() == "Ship vs NPC" || $cmbt->getType() == "Ship vs Ship"):?>
 					<a href="info.php#Combat" onClick="return false;" onMouseOut="nukeTip();" onMouseOver="tip(this, 'Combat preview', null, getCombatPreview(<?php echo($i - 1)?>), 'r');">
@@ -279,14 +279,14 @@ function getCombatPreview(i) {
 					</a>
 					<?php endif?>
 				</td>
-				<td align='center' style='cursor:crosshair' onClick='combatDetails(<?php echo($cmbt->getId())?>)'><?php echo($cmbt->getAttacker())?></td>
-				<td align='center' style='cursor:crosshair' onClick='combatDetails(<?php echo($cmbt->getId())?>)'><?php echo($cmbt->getOutcome())?></td>
-				<td align='center' style='cursor:crosshair' onClick='combatDetails(<?php echo($cmbt->getId())?>)'><?php echo($cmbt->getDefender())?></td>
-				<td align='center' style='cursor:crosshair' onClick='combatDetails(<?php echo($cmbt->getId())?>)'><?php if ($cmbt->getAdditional()) {echo($cmbt->getAdditional());} else {echo("&nbsp;");}?></td>
+				<td align='center' nowrap='nowrap' style='cursor:crosshair' onClick='combatDetails(<?php echo($cmbt->getId())?>)'><?php echo($cmbt->getAttacker())?></td>
+				<td align='center' nowrap='nowrap' style='cursor:crosshair' onClick='combatDetails(<?php echo($cmbt->getId())?>)'><?php echo($cmbt->getOutcome())?></td>
+				<td align='center' nowrap='nowrap' style='cursor:crosshair' onClick='combatDetails(<?php echo($cmbt->getId())?>)'><?php echo($cmbt->getDefender())?></td>
+				<td align='center' nowrap='nowrap' style='cursor:crosshair' onClick='combatDetails(<?php echo($cmbt->getId())?>)'><?php if ($cmbt->getAdditional()) {echo($cmbt->getAdditional());} else {echo("&nbsp;");}?></td>
 				<?php if (SettingsMod::ENABLE_COMMENTS && $permissions->has(Permissions::VIEW_COMMENTS)): ?>
-				<td align='center' style='cursor:crosshair' onClick='combatDetails(<?php echo($cmbt->getId())?>)'><?php echo(CommentMod::getCommentCount('combat', $cmbt->getId())); ?></td>
+				<td align='center' nowrap='nowrap' style='cursor:crosshair' onClick='combatDetails(<?php echo($cmbt->getId())?>)'><?php echo(CommentMod::getCommentCount('combat', $cmbt->getId())); ?></td>
 				<?php endif; ?>
-				<td align='center' style='cursor:crosshair' onClick='combatDetails(<?php echo($cmbt->getId())?>)'><?php if ($cmbt->getLevel()) {echo($cmbt->getLevel());} else {echo("&nbsp;");}?></td>
+				<td align='center' nowrap='nowrap' style='cursor:crosshair' onClick='combatDetails(<?php echo($cmbt->getId())?>)'><?php if ($cmbt->getLevel()) {echo($cmbt->getLevel());} else {echo("&nbsp;");}?></td>
 			</tr>
 			<?php endforeach?>
 			<tr>

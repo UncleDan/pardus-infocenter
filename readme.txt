@@ -104,6 +104,10 @@ KNOWN BUGS/TO DO LIST
 
 VERSION HISTORY
 
+1.6.11 (2012-04-24)
+- nowrap mod Jivemaster by http://forum.pardus.at/index.php?showtopic=57706&view=findpost&p=1170585
+- aligned relase in GM scripts
+
 1.6.10 (2012-03-24)
 - fix_hack_img.php fix by Jivemaster http://forum.pardus.at/index.php?showtopic=57706&view=findpost&p=1167819
 - accounts.php fix by Jivemaster http://forum.pardus.at/index.php?showtopic=57706&view=findpost&p=1167819
