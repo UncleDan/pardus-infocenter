@@ -15,16 +15,16 @@
 					"values (" .
 						"'%s', '%s', '%s', '%s', '%s', '%s', %d, '%s'" .
 					")",
-					mysql_real_escape_string($pay->getUniverse()),
+					mysqli_real_escape_string($conn, $pay->getUniverse()),
 					date("Y-m-d H-i-s", $pay->getWhen() / 1000),
-					mysql_real_escape_string($pay->getType()),
-					mysql_real_escape_string($pay->getLocation()),
-					mysql_real_escape_string($pay->getPayer()),
-					mysql_real_escape_string($pay->getReceiver()),
+					mysqli_real_escape_string($conn, $pay->getType()),
+					mysqli_real_escape_string($conn, $pay->getLocation()),
+					mysqli_real_escape_string($conn, $pay->getPayer()),
+					mysqli_real_escape_string($conn, $pay->getReceiver()),
 					intval($pay->getCredits()),
-					mysql_real_escape_string($pay->getLevel())
+					mysqli_real_escape_string($conn, $pay->getLevel())
 				);
-			return mysql_query($sql, $conn);
+			return mysqli_query($conn, $sql);
 		}
 
 		public static function getPayments(
@@ -59,8 +59,8 @@
 				);
 
 			$sql = "select count(*) as cnt from ".SettingsMod::DB_TABLE_PREFIX."payment as p " . $join . $where;
-			$result = mysql_query($sql, $conn);
-			$row = mysql_fetch_assoc($result);
+			$result = mysqli_query($conn, $sql);
+			$row = mysqli_fetch_assoc($result);
 			$recordCount = $row["cnt"];
 			$pageCount = ceil($recordCount / SettingsMod::PAGE_RECORDS_PER_PAGE);
 			if ($pageNumber > $pageCount)
@@ -72,7 +72,7 @@
 			else {
 				$recordsPerPage = $recordCount % SettingsMod::PAGE_RECORDS_PER_PAGE;
 				if ($recordsPerPage == 0 && $recordCount > 0)
-					$recordsPerPage = SettingsMod::PAGE_RECORDS_PER_PAGE; 
+					$recordsPerPage = SettingsMod::PAGE_RECORDS_PER_PAGE;
 			}
 			$sql =
 				sprintf(
@@ -92,8 +92,8 @@
 					$recordsPerPage
 				);
 			$payments = array();
-			$result = mysql_query($sql, $conn);
-			while ($row = mysql_fetch_assoc($result)) {
+			$result = mysqli_query($conn, $sql);
+			while ($row = mysqli_fetch_assoc($result)) {
 				$pay =
 					new Payment(
 						$row["id"],
@@ -115,11 +115,11 @@
 			$conn = self::getConnection();
 			$sql = sprintf(
 				"update ".SettingsMod::DB_TABLE_PREFIX."payment set level = '%s' where id = %d",
-				mysql_real_escape_string($level),
+				mysqli_real_escape_string($conn, $level),
 				intval($id)
 			);
 
-			mysql_query($sql, $conn);
+			mysqli_query($sql, $conn);
 		}
 	}
 ?>

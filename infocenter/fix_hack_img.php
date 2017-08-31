@@ -6,19 +6,20 @@
 		public static function do_fix() {
 			$conn = self::getConnection();
 
-			$result = mysql_query("select * from ".SettingsMod::DB_TABLE_PREFIX."hack", $conn);
+			$result = mysqli_query($conn, "select * from ".SettingsMod::DB_TABLE_PREFIX."hack");
 			$hacks = array();
-			while ($row = mysql_fetch_assoc($result)) {
+			while ($row = mysqli_fetch_assoc($result)) {
 				$hacks[$row["id"]] = $row;
 			}
 
 			foreach ($hacks as $id => $hack) {
 				$buildings_new = str_ireplace("IMG>", "IMG_NAME>", $hack["buildings"]);
-				mysql_query(sprintf(
+				mysqli_query(sprintf(
+                    $conn,
 					"update ".SettingsMod::DB_TABLE_PREFIX."hack set buildings = '%s' where id = %d",
-					mysql_real_escape_string($buildings_new),
+					mysqli_real_escape_string($conn, $buildings_new),
 					$id
-				), $conn);
+				));
 			}
 		}
 	}

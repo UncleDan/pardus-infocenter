@@ -16,21 +16,21 @@
 					"from (select count(*) as cnt from ".SettingsMod::DB_TABLE_PREFIX."combat where pid = %d and universe = '%2\$s') as tmp " .
 					"where tmp.cnt = 0",
 					$cmbt->getPid(),
-					mysql_real_escape_string($cmbt->getUniverse()),
-					mysql_real_escape_string($cmbt->getType()),
+					mysqli_real_escape_string($conn, $cmbt->getUniverse()),
+					mysqli_real_escape_string($conn, $cmbt->getType()),
 					date("Y-m-d H-i-s", $cmbt->getWhen() / 1000),
-					mysql_real_escape_string($cmbt->getSector()),
-					mysql_real_escape_string($cmbt->getCoords()),
-					mysql_real_escape_string($cmbt->getAttacker()),
-					mysql_real_escape_string($cmbt->getDefender()),
-					mysql_real_escape_string($cmbt->getOutcome()),
-					mysql_real_escape_string($cmbt->getAdditional()),
-					mysql_real_escape_string($cmbt->getLevel()),
-					mysql_real_escape_string($cmbt->getData()),
+					mysqli_real_escape_string($conn, $cmbt->getSector()),
+					mysqli_real_escape_string($conn, $cmbt->getCoords()),
+					mysqli_real_escape_string($conn, $cmbt->getAttacker()),
+					mysqli_real_escape_string($conn, $cmbt->getDefender()),
+					mysqli_real_escape_string($conn, $cmbt->getOutcome()),
+					mysqli_real_escape_string($conn, $cmbt->getAdditional()),
+					mysqli_real_escape_string($conn, $cmbt->getLevel()),
+					mysqli_real_escape_string($conn, $cmbt->getData()),
 					$cmbt->getPid()
 				);
 			echo $sql;
-			return mysql_query($sql, $conn);
+			return mysqli_query($conn, $sql);
 		}
 
 		public static function getCombats(
@@ -42,7 +42,7 @@
 
 			$where = sprintf("where c.universe = '%s' ", $_SESSION["account"]->getUniverse());
 			if (!empty($type))
-				$where .= sprintf("and c.`type` = '%s' ", mysql_real_escape_string($type));
+				$where .= sprintf("and c.`type` = '%s' ", mysqli_real_escape_string($conn, $type));
 
 			if (!empty($opponent)) {
 				$outcomeForAttacker = "";
@@ -74,11 +74,11 @@
 							" or " .
 							"(c.defender = '%1\$s'%3\$s)" .
 						") ",
-						mysql_real_escape_string($opponent),
+						mysqli_real_escape_string($conn, $opponent),
 						$outcomeForAttacker,
 						$outcomeForDefender
 					);
-			} else 
+			} else
 			if (!empty($outcome)) {
 				$outcomeAnybody = "";
 				if ($outcome == "Defeat")
@@ -99,7 +99,7 @@
 				$where .=
 					sprintf(
 						"and c.additional = '%s' ",
-						mysql_real_escape_string($additional)
+						mysqli_real_escape_string($conn, $additional)
 					);
 
 			// get security level of account, and filter on that
@@ -112,8 +112,8 @@
 				);
 
 			$sql = "select count(*) as cnt from ".SettingsMod::DB_TABLE_PREFIX."combat as c " . $join . $where;
-			$result = mysql_query($sql, $conn);
-			$row = mysql_fetch_assoc($result);
+			$result = mysqli_query($conn, $sql);
+			$row = mysqli_fetch_assoc($result);
 			$recordCount = $row["cnt"];
 			$pageCount = ceil($recordCount / SettingsMod::PAGE_RECORDS_PER_PAGE);
 			if ($pageNumber > $pageCount)
@@ -125,7 +125,7 @@
 			else {
 				$recordsPerPage = $recordCount % SettingsMod::PAGE_RECORDS_PER_PAGE;
 				if ($recordsPerPage == 0 && $recordCount > 0)
-					$recordsPerPage = SettingsMod::PAGE_RECORDS_PER_PAGE; 
+					$recordsPerPage = SettingsMod::PAGE_RECORDS_PER_PAGE;
 			}
 			$sql =
 				sprintf(
@@ -145,8 +145,8 @@
 					$recordsPerPage
 				);
 			$combats = array();
-			$result = mysql_query($sql, $conn);
-			while ($row = mysql_fetch_assoc($result)) {
+			$result = mysqli_query($conn, $sql);
+			while ($row = mysqli_fetch_assoc($result)) {
 				$cmbt =
 					new Combat(
 						$row["id"],
@@ -175,8 +175,8 @@
 					"select * from ".SettingsMod::DB_TABLE_PREFIX."combat where universe = '%s' and id = %d",
 					$_SESSION["account"]->getUniverse(), $id
 				);
-			$result = mysql_query($sql, $conn);
-			$row = mysql_fetch_assoc($result);
+			$result = mysqli_query($conn, $sql);
+			$row = mysqli_fetch_assoc($result);
 			if ($row)
 				return
 					new Combat(
@@ -202,11 +202,11 @@
 			$conn = self::getConnection();
 			$sql = sprintf(
 				"update ".SettingsMod::DB_TABLE_PREFIX."combat set level = '%s' where id = %d",
-				mysql_real_escape_string($level),
+				mysqli_real_escape_string($conn, $level),
 				intval($id)
 			);
 
-			mysql_query($sql, $conn);
+			mysqli_query($conn, $sql);
 		}
 
 		public static function deleteCombat($cmbt) {
@@ -216,7 +216,7 @@
 				intval($cmbt->getId())
 			);
 
-			mysql_query($sql, $conn);
+			mysqli_query($sql, $conn);
 		}
 
 	}

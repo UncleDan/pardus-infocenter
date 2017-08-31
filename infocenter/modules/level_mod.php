@@ -12,20 +12,20 @@
 			// get security level of user
 			$sql = sprintf(
 				"select l.level from ".SettingsMod::DB_TABLE_PREFIX."account as a join ".SettingsMod::DB_TABLE_PREFIX."level as l on a.level = l.name where a.name = '%s'",
-				mysql_real_escape_string($acc->getName())
+				mysqli_real_escape_string($conn, $acc->getName())
 			);
-			$result = mysql_query($sql, $conn);
-			$row = mysql_fetch_assoc($result);
+			$result = mysqli_query($conn, $sql);
+			$row = mysqli_fetch_assoc($result);
 
 			// get all available levels to the user
 			$sql = sprintf(
 				"select * from ".SettingsMod::DB_TABLE_PREFIX."level where level <= %d order by level asc",
 				intval($row["level"])
 			);
-			$result = mysql_query($sql, $conn);
+			$result = mysqli_query($conn, $sql);
 
 			$levels = array();
-			while($row = mysql_fetch_assoc($result)) {
+			while($row = mysqli_fetch_assoc($result)) {
 				$levels[$row["id"]] = new Level(
 					$row["id"],
 					$row["level"],
@@ -42,10 +42,10 @@
 
 			$sql = sprintf(
 				"select l.level from ".SettingsMod::DB_TABLE_PREFIX."account as a join ".SettingsMod::DB_TABLE_PREFIX."level as l on a.level = l.name where a.name = '%s'",
-				mysql_real_escape_string($_SESSION['account']->getName())
+				mysqli_real_escape_string($conn, $_SESSION['account']->getName())
 			);
-			$result = mysql_query($sql, $conn);
-			$row = mysql_fetch_assoc($result);
+			$result = mysqli_query($conn, $sql);
+			$row = mysqli_fetch_assoc($result);
 			return $row["level"];
 		}
 	}
