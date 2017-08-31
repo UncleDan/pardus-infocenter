@@ -4,11 +4,11 @@
 ?>
 <html>
 <head>
+<title><?php echo(SettingsMod::PAGE_TITLE." :: Main"); ?></title>
 <link rel="stylesheet" href="main.css">
 <script src="main.js" type="text/javascript"></script>
 <script src="info.js" type="text/javascript"></script>
 </head>
-<title><?php echo(SettingsMod::PAGE_TITLE." :: Main"); ?></title>
 <body>
 	<h1 align="center"><?php echo(SettingsMod::MAIN_PAGE_TITLE); ?></h1>
 	<table align="center" width="900">
