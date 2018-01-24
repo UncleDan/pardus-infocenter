@@ -22,20 +22,20 @@
 						"where tmp.cnt = 0",
 						$mission["pid"],
 						$universe,
-						mysql_real_escape_string($mission["source"]),
+						mysqli_real_escape_string($conn, $mission["source"]),
 						$when,
-						mysql_real_escape_string(v($mission, "faction")),
-						mysql_real_escape_string($mission["type"]),
+						mysqli_real_escape_string(v($conn, $mission, "faction")),
+						mysqli_real_escape_string($conn, $mission["type"]),
 						$mission["timelimit"],
 						v($mission, "amount"),
-						mysql_real_escape_string(v($mission, "opponent")),
-						mysql_real_escape_string(v($mission, "destination")),
-						mysql_real_escape_string(v($mission, "sector")),
-						mysql_real_escape_string(v($mission, "coords")),
+						mysqli_real_escape_string($conn, v($mission, "opponent")),
+						mysqli_real_escape_string($conn, v($mission, "destination")),
+						mysqli_real_escape_string($conn, v($mission, "sector")),
+						mysqli_real_escape_string($conn, v($mission, "coords")),
 						$mission["reward"],
 						$mission["deposit"]
 					);
-				$res = $res && mysql_query($sql, $conn);
+				$res = $res && mysqli_query($conn, $sql);
 				$sql =
 					sprintf(
 						"update ".SettingsMod::DB_TABLE_PREFIX."mission set `when` = '%s' " .
@@ -44,10 +44,10 @@
 						$mission["pid"],
 						$universe
 					);
-				$res = $res && mysql_query($sql, $conn);
+				$res = $res && mysqli_query($conn, $sql);
 			}
 
-			mysql_close($conn);
+			mysqli_close($conn);
 			return $res;
 		}
 
@@ -55,19 +55,19 @@
 			$conn = self::getConnection();
 			$where = sprintf("where universe = '%s' ", $_SESSION["account"]->getUniverse());
 			if ($filters["type"])
-				$where .= sprintf("and type = '%s' ", mysql_real_escape_string($filters["type"]));
+				$where .= sprintf("and type = '%s' ", mysqli_real_escape_string($conn, $filters["type"]));
 			if ($filters["npc"])
-				$where .= sprintf("and opponent = '%s' ", mysql_real_escape_string($filters["npc"]));
+				$where .= sprintf("and opponent = '%s' ", mysqli_real_escape_string($conn, $filters["npc"]));
 			if ($filters["faction"]) {
 				$faction = $filters["faction"] == "neu" ? "" : $filters["faction"];
-				$where .= sprintf("and faction = '%s' ", mysql_real_escape_string($faction));
+				$where .= sprintf("and faction = '%s' ", mysqli_real_escape_string($conn, $faction));
 			}
 //Sector Mod
 			if ($filters["sector"])
-				$where .= sprintf("and sector = '%s' ", mysql_real_escape_string($filters["sector"]));
+				$where .= sprintf("and sector = '%s' ", mysqli_real_escape_string($conn, $filters["sector"]));
 //Source Mod
 			if ($filters["source"])
-				$where .= sprintf("and source = '%s' ", mysql_real_escape_string($filters["source"]));
+				$where .= sprintf("and source = '%s' ", mysqli_real_escape_string($conn, $filters["source"]));
 		if ($filters["daterange"]) {
 				$dateTo = round($filters["dateto"] / 1000);
 				if ($filters["daterange"] == "Today") {
@@ -86,8 +86,8 @@
 					);
 			}
 			$sql = "select count(*) as cnt from ".SettingsMod::DB_TABLE_PREFIX."mission " . $where;
-			$result = mysql_query($sql, $conn);
-			$row = mysql_fetch_assoc($result);
+			$result = mysqli_query($conn, $sql);
+			$row = mysqli_fetch_assoc($result);
 			$recordCount = $row["cnt"];
 			$pageCount = ceil($recordCount / SettingsMod::PAGE_RECORDS_PER_PAGE);
 			if ($pageNumber > $pageCount)
@@ -97,7 +97,7 @@
 			else {
 				$recordsPerPage = $recordCount % SettingsMod::PAGE_RECORDS_PER_PAGE;
 				if ($recordsPerPage == 0 && $recordCount > 0)
-					$recordsPerPage = SettingsMod::PAGE_RECORDS_PER_PAGE; 
+					$recordsPerPage = SettingsMod::PAGE_RECORDS_PER_PAGE;
 			}
 			$sql =
 				sprintf(
@@ -115,12 +115,12 @@
 					SettingsMod::PAGE_RECORDS_PER_PAGE * $pageNumber,
 					$recordsPerPage
 				);
-			$result = mysql_query($sql, $conn);
+			$result = mysqli_query($conn, $sql);
 			$missions = array();
-			while ($row = mysql_fetch_assoc($result)) {
+			while ($row = mysqli_fetch_assoc($result)) {
 				$missions[$row["id"]] = $row;
 			}
-			mysql_close($conn);
+			mysqli_close($conn);
 			return $missions;
 		}
 		public static function clearMissions($universe, $days) {
@@ -132,7 +132,7 @@
 				$universe
 			);
 
-			mysql_query($sql, $conn);
+			mysqli_query($sql, $conn);
 		}
 	}
 ?>

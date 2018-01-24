@@ -5,12 +5,12 @@
 	class BaseMod {
 		public static function getConnection() {
 			$conn =
-				mysql_connect(
+				mysqli_connect(
 					SettingsMod::DB_SERVER_ADDRESS,
 					SettingsMod::DB_ACCOUNT,
-					SettingsMod::DB_PASSWORD
+					SettingsMod::DB_PASSWORD,
+                    SettingsMod::DB_NAME
 				);
-			mysql_select_db(SettingsMod::DB_NAME, $conn);
 			return $conn;
 		}
 	}

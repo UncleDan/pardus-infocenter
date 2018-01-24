@@ -8,9 +8,9 @@
 			$sql =
 				sprintf(
 					"select * from ".SettingsMod::DB_TABLE_PREFIX."account where name = '%s'",
-					mysql_real_escape_string($name)
+					mysqli_real_escape_string($conn, $name)
 				);
-			$row = mysql_fetch_assoc(mysql_query($sql, $conn)); 
+			$row = mysqli_fetch_assoc(mysqli_query($conn, $sql));
 			if (!$row)
 				return null;
 			return
@@ -29,8 +29,8 @@
 			$where = sprintf("where universe = '%s' ", $_SESSION["account"]->getUniverse());
 
 			$sql = "select count(*) as cnt from ".SettingsMod::DB_TABLE_PREFIX."account " . $where;
-			$result = mysql_query($sql, $conn);
-			$row = mysql_fetch_assoc($result);
+			$result = mysqli_query($conn, $sql);
+			$row = mysqli_fetch_assoc($result);
 			$recordCount = $row["cnt"];
 			$pageCount = ceil($recordCount / SettingsMod::PAGE_RECORDS_PER_PAGE);
 			if ($pageNumber > $pageCount)
@@ -42,7 +42,7 @@
 			else {
 				$recordsPerPage = $recordCount % SettingsMod::PAGE_RECORDS_PER_PAGE;
 				if ($recordsPerPage == 0 && $recordCount > 0)
-					$recordsPerPage = SettingsMod::PAGE_RECORDS_PER_PAGE; 
+					$recordsPerPage = SettingsMod::PAGE_RECORDS_PER_PAGE;
 			}
 			$sql =
 				sprintf(
@@ -61,8 +61,8 @@
 					$recordsPerPage
 				);
 			$accounts = array();
-			$result = mysql_query($sql, $conn);
-			while ($row = mysql_fetch_assoc($result)) {
+			$result = mysqli_query($conn, $sql);
+			while ($row = mysqli_fetch_assoc($result)) {
 				$acc =
 					new Account(
 						$row["name"],
@@ -80,11 +80,11 @@
 			$conn = self::getConnection();
 			$sql = sprintf(
 				"update ".SettingsMod::DB_TABLE_PREFIX."account set level = '%s' where name = '%s'",
-				mysql_real_escape_string($level),
-				mysql_real_escape_string($name)
+				mysqli_real_escape_string($conn, $level),
+				mysqli_real_escape_string($conn, $name)
 			);
 
-			mysql_query($sql, $conn);
+			mysqli_query($conn, $sql);
 		}
 
 		public static function updatePermissions($name, $permissions) {
@@ -92,24 +92,24 @@
 			$sql = sprintf(
 				"update ".SettingsMod::DB_TABLE_PREFIX."account set permissions = %d where name = '%s'",
 				intval($permissions),
-				mysql_real_escape_string($name)
+				mysqli_real_escape_string($conn, $name)
 			);
 
-			mysql_query($sql, $conn);
+			mysqli_query($conn, $sql);
 		}
 
 		public static function addAccount($acc) {
 			$conn = self::getConnection();
 			$sql = sprintf(
 				"insert into ".SettingsMod::DB_TABLE_PREFIX."account (universe, name, password, permissions, level) values ('%s', '%s', '%s', %d, '%s')",
-				mysql_real_escape_string($acc->getUniverse()),
-				mysql_real_escape_string($acc->getName()),
-				mysql_real_escape_string($acc->getPassword()),
+				mysqli_real_escape_string($conn, $acc->getUniverse()),
+				mysqli_real_escape_string($conn, $acc->getName()),
+				mysqli_real_escape_string($conn, $acc->getPassword()),
 				intval($acc->getRawPermissions()),
-				mysql_real_escape_string($acc->getLevel())
+				mysqli_real_escape_string($conn, $acc->getLevel())
 			);
 
-			mysql_query($sql, $conn);
+			mysqli_query($conn, $sql);
 		}
 
 		public static function deleteAccount($acc) {
@@ -119,18 +119,18 @@
 				$acc->getName()
 			);
 
-			mysql_query($sql, $conn);
+			mysqli_query($conn, $sql);
 		}
 
 		public static function updatePassword($name, $password) {
 			$conn = self::getConnection();
 			$sql = sprintf(
 				"update ".SettingsMod::DB_TABLE_PREFIX."account set password = '%s' where name = '%s'",
-				mysql_real_escape_string($password),
-				mysql_real_escape_string($name)
+				mysqli_real_escape_string($conn, $password),
+				mysqli_real_escape_string($conn, $name)
 			);
 
-			mysql_query($sql, $conn);
+			mysqli_query($conn, $sql);
 		}
 	}
 ?>

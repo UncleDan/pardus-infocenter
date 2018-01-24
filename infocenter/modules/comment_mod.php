@@ -12,14 +12,14 @@
 						"universe, `table`, table_id, name, `when`, data" .
 					")" .
 					" values ('%s', '%s', %d, '%s', '%s', '%s');",
-					mysql_real_escape_string($com->getUniverse()),
-					mysql_real_escape_string($com->getTable()),
+					mysqli_real_escape_string($conn, $com->getUniverse()),
+					mysqli_real_escape_string($conn, $com->getTable()),
 					intval($com->getTableId()),
-					mysql_real_escape_string($com->getName()),
+					mysqli_real_escape_string($conn, $com->getName()),
 					date("Y-m-d H-i-s", $com->getWhen() / 1000),
-					mysql_real_escape_string($com->getData())
+					mysqli_real_escape_string($conn, $com->getData())
 				);
-			return mysql_query($sql, $conn);
+			return mysqli_query($conn, $sql);
 		}
 
 		public static function getComments($table, $id) {
@@ -27,7 +27,7 @@
 
 			$where = sprintf(
 				"where `table` = '%s' and table_id = %d ",
-				mysql_real_escape_string($table), intval($id)
+				mysqli_real_escape_string($conn, $table), intval($id)
 			);
 
 			$sql =
@@ -35,8 +35,8 @@
 				$where .
 				"order by `when` asc";
 			$comments = array();
-			$result = mysql_query($sql, $conn);
-			while ($row = mysql_fetch_assoc($result)) {
+			$result = mysqli_query($conn, $sql);
+			while ($row = mysqli_fetch_assoc($result)) {
 				$com =
 					new Comment(
 						$row["id"],
@@ -57,7 +57,7 @@
 
 			$where = sprintf(
 				"where `table` = '%s' and table_id = %d ",
-				mysql_real_escape_string($table), intval($id)
+				mysqli_real_escape_string($conn, $table), intval($id)
 			);
 
 			$sql =
@@ -65,8 +65,8 @@
 				$where .
 				"order by `when` asc";
 			$comments = array();
-			$result = mysql_query($sql, $conn);
-			$row = mysql_fetch_assoc($result);
+			$result = mysqli_query($conn, $sql);
+			$row = mysqli_fetch_assoc($result);
 			return $row["cnt"];
 		}
 
@@ -83,8 +83,8 @@
 				$where .
 				"order by `when` asc";
 			$comments = array();
-			$result = mysql_query($sql, $conn);
-			$row = mysql_fetch_assoc($result);
+			$result = mysqli_query($conn, $sql);
+			$row = mysqli_fetch_assoc($result);
 			$com =
 				new Comment(
 					$row["id"],
@@ -103,11 +103,11 @@
 			$conn = self::getConnection();
 			$sql = sprintf(
 				"update ".SettingsMod::DB_TABLE_PREFIX."comment set data = '%s' where id = %d",
-				mysql_real_escape_string($com->getData()),
+				mysqli_real_escape_string($conn, $com->getData()),
 				intval($com->getId())
 			);
 
-			mysql_query($sql, $conn);
+			mysqli_query($conn, $sql);
 		}
 
 		public static function deleteComment($com) {
@@ -117,7 +117,7 @@
 				intval($com->getId())
 			);
 
-			mysql_query($sql, $conn);
+			mysqli_query($conn, $sql);
 		}
 
 		public static function drawComment(

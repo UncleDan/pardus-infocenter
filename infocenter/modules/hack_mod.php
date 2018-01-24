@@ -36,27 +36,27 @@
 					")",
 					date("Y-m-d H-i-s", $hack["date"] / 1000),
 					$universe,
-					mysql_real_escape_string($hack["method"]),
-					mysql_real_escape_string($hack["location"]),
-					mysql_real_escape_string($hack["pilot_id"]),
-					mysql_real_escape_string($hack["pilot"]),
-					mysql_real_escape_string($hack["credits"]),
-					mysql_real_escape_string(v($hack, "experience")),
-					v($hack, "position") ? mysql_real_escape_string(v($hack["position"], "cluster")) : null,
-					v($hack, "position") ? mysql_real_escape_string(v($hack["position"], "sector")) : null,
-					v($hack, "position") ? mysql_real_escape_string(v($hack["position"], "coords")) : null,
-					mysql_real_escape_string($shipStatus),
-					mysql_real_escape_string($buildingPositions),
-					mysql_real_escape_string($buildings),
-					mysql_real_escape_string($hack["reputation"]),
-					mysql_real_escape_string($hack["building_amount"]),
-					mysql_real_escape_string($foes),
-					mysql_real_escape_string($friends),
-					mysql_real_escape_string($foeAlliances),
-					mysql_real_escape_string($friendAlliances),
-					mysql_real_escape_string($level)
+					mysqli_real_escape_string($conn, $hack["method"]),
+					mysqli_real_escape_string($conn, $hack["location"]),
+					mysqli_real_escape_string($conn, $hack["pilot_id"]),
+					mysqli_real_escape_string($conn, $hack["pilot"]),
+					mysqli_real_escape_string($conn, $hack["credits"]),
+					mysqli_real_escape_string(v($conn, $hack, "experience")),
+					v($hack, "position") ? mysqli_real_escape_string($conn, v($hack["position"], "cluster")) : null,
+					v($hack, "position") ? mysqli_real_escape_string($conn, v($hack["position"], "sector")) : null,
+					v($hack, "position") ? mysqli_real_escape_string($conn, v($hack["position"], "coords")) : null,
+					mysqli_real_escape_string($conn, $shipStatus),
+					mysqli_real_escape_string($conn, $buildingPositions),
+					mysqli_real_escape_string($conn, $buildings),
+					mysqli_real_escape_string($conn, $hack["reputation"]),
+					mysqli_real_escape_string($conn, $hack["building_amount"]),
+					mysqli_real_escape_string($conn, $foes),
+					mysqli_real_escape_string($conn, $friends),
+					mysqli_real_escape_string($conn, $foeAlliances),
+					mysqli_real_escape_string($conn, $friendAlliances),
+					mysqli_real_escape_string($conn, $level)
 				);
-			return mysql_query($sql, $conn);
+			return mysqli_query($conn, $sql);
 		}
 
 		public static function getHacks($filters, $level, &$pageNumber, &$pageCount) {
@@ -66,9 +66,9 @@
 
 			$where = sprintf("where universe = '%s' ", $_SESSION["account"]->getUniverse());
 			if ($filters["method"])
-				$where .= sprintf("and method = '%s' ", mysql_real_escape_string($filters["method"]));
+				$where .= sprintf("and method = '%s' ", mysqli_real_escape_string($conn, $filters["method"]));
 			if ($filters["pilot"])
-				$where .= sprintf("and pilot = '%s' ", mysql_real_escape_string($filters["pilot"]));
+				$where .= sprintf("and pilot = '%s' ", mysqli_real_escape_string($conn, $filters["pilot"]));
 
 			// get security level of account, and filter on that
 			$level = LevelMod::accountClearance($_SESSION["account"]->getName());
@@ -80,8 +80,8 @@
 				);
 
 			$sql = "select count(*) as cnt from ".SettingsMod::DB_TABLE_PREFIX."hack as h " . $join . $where;
-			$result = mysql_query($sql, $conn);
-			$row = mysql_fetch_assoc($result);
+			$result = mysqli_query($conn, $sql);
+			$row = mysqli_fetch_assoc($result);
 			$recordCount = $row["cnt"];
 			$pageCount = ceil($recordCount / SettingsMod::PAGE_RECORDS_PER_PAGE);
 			if ($pageNumber > $pageCount)
@@ -110,12 +110,12 @@
 					SettingsMod::PAGE_RECORDS_PER_PAGE * $pageNumber,
 					$recordsPerPage
 				);
-			$result = mysql_query($sql, $conn);
+			$result = mysqli_query($conn, $sql);
 			$hacks = array();
-			while ($row = mysql_fetch_assoc($result)) {
+			while ($row = mysqli_fetch_assoc($result)) {
 				$hacks[$row["id"]] = $row;
 			}
-			mysql_close($conn);
+			mysqli_close($conn);
 			return $hacks;
 		}
 
@@ -128,8 +128,8 @@
 					$_SESSION["account"]->getUniverse(),
 					$id
 				);
-			$result = mysql_query($sql, $conn);
-			if ($hack = mysql_fetch_assoc($result)) {
+			$result = mysqli_query($conn, $sql);
+			if ($hack = mysqli_fetch_assoc($result)) {
 				if ($hack["shipStatus"])
 					$hack["shipStatus"] = XmlHelper::xmlToArray($hack["shipStatus"]);
 				if ($hack["buildingPositions"])
@@ -146,7 +146,7 @@
   					$hack["friendAlliances"] = split(",", $hack["friendAlliances"]);
 			} else
 				$hack = null;
-			mysql_close($conn);
+			mysqli_close($conn);
 			return $hack;
 		}
 
@@ -154,11 +154,11 @@
 			$conn = self::getConnection();
 			$sql = sprintf(
 				"update ".SettingsMod::DB_TABLE_PREFIX."hack set level = '%s' where id = %d",
-				mysql_real_escape_string($level),
+				mysqli_real_escape_string($conn, $level),
 				intval($id)
 			);
 
-			mysql_query($sql, $conn);
+			mysqli_query($conn, $sql);
 		}
 
 		public static function deleteHack($hack) {
@@ -168,7 +168,7 @@
 				intval($hack["id"])
 			);
 
-			mysql_query($sql, $conn);
+			mysqli_query($conn, $sql);
 		}
 
 	}
